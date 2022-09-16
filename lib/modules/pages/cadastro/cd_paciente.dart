@@ -1,6 +1,7 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:idosos/modules/pages/login/login_services.dart';
 import 'package:mask/mask/mask.dart';
 import '../../../Functions/Login.functions.dart';
 import '../login/login.dart';
@@ -230,6 +231,9 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         print(_controllerSenhaPaciente.text.trim());
                         print(_controllerCelularPaciente.text.trim());
                         print(_controllerCPFPaciente.text.trim());
+
+                        login_services().login(_controllerEmailPaciente.text,
+                            _controllerSenhaPaciente.text);
                       }
                     },
                   ),

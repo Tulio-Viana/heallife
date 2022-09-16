@@ -4,7 +4,6 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:idosos/modules/pages/cadastro/cd_prof.dart';
 import 'package:idosos/modules/pages/login/login.dart';
-import '../../../Functions/Login.functions.dart';
 import 'cd_paciente.dart';
 
 class Select_Cd_Page extends StatefulWidget {

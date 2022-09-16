@@ -9,6 +9,8 @@ import '../bottomnavigator/pg_principal.dart';
 import '../cadastro/cd_paciente.dart';
 import 'package:flutter/services.dart';
 
+import 'login_services.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -138,6 +140,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () {
                         if (_fromState.currentState!.validate()) {
+                          login_services().login(_controllerEmailLogin.text,
+                              _controllerSenhaLogin.text);
                           print(_controllerEmailLogin.text.trim());
                           print(_controllerSenhaLogin.text.trim());
                           Navigator.of(context).push(MaterialPageRoute(
