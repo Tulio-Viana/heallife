@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:idosos/modules/pages/bottomnavigator/homepage.dart';
+import 'package:idosos/modules/pages/bottomnavigator/homepagePACIENTE.dart';
+import 'package:idosos/modules/pages/bottomnavigator/homepagePROF.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
 import 'package:idosos/modules/pages/bottomnavigator/pg_ranking.dart';
@@ -23,11 +24,18 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
-    Ranking(),
-    HomePage(),
-    PerfilPaciente()
-  ];
+  bool Cuidador = false;
+  late List<Widget> _widgetOptions;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _widgetOptions = <Widget>[
+      Ranking(),
+      Cuidador ? HomePageProf() : homepagePaciente(),
+      Cuidador ? Perfil() : PerfilPaciente()
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

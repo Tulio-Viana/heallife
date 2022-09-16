@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:idosos/modules/pages/bottomnavigator/homepage.dart';
+import 'package:idosos/modules/pages/bottomnavigator/homepagePROF.dart';
 import 'package:idosos/modules/pages/bottomnavigator/pg_principal.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
@@ -37,8 +37,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
         children: [
           ProfileWidget(
               imagePath: user.imagePath, isEdit: true, onClicked: () async {}),
+          SizedBox(
+            height: 24,
+          ),
+          buildName(user),
           const SizedBox(
-            height: 48,
+            height: 44,
           ),
           TextFieldWidget(
             label: 'Sobre',

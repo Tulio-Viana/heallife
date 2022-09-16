@@ -38,10 +38,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
         children: [
           ProfileWidget(
             imagePath: user.imagePath,
-            onClicked: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => EditProfilePage()));
-            },
+            onClicked: () {}, //para editar a imagem vai ser aqui
           ),
           const SizedBox(
             height: 24,
@@ -143,7 +140,11 @@ Widget buildTratamentos(
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
+                        keyboardType: TextInputType.number,
                         controller: _txtQuantidadeMedController,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Quantidade ingerida',
@@ -154,6 +155,10 @@ Widget buildTratamentos(
                       padding: const EdgeInsets.only(top: 40),
                       child: ElevatedButton(
                           onPressed: () {
+                            _txtNomeMedController.text = "";
+                            _txtQuantidadeMedController.text = "";
+                            _txtTimeController.text = "";
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 duration: Duration(milliseconds: 1500),
