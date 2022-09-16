@@ -34,24 +34,6 @@ class _LoginPageState extends State<LoginPage> {
     final double largura = MediaQuery.of(context).size.width;
     final double altura = MediaQuery.of(context).size.height;
     return Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.greenAccent.shade200,
-        //   title: Row(children: [
-        //     Padding(
-        //       padding: EdgeInsets.fromLTRB(95, 0, 0, 0),
-        //       child: Text(
-        //         'HealLife',
-        //         style: TextStyle(
-        //           fontSize: 40,
-        //         ),
-        //       ),
-        //     ),
-        //     Icon(
-        //       Icons.healing,
-        //       size: 50,
-        //     ),
-        //   ]),
-        // ),
         backgroundColor: Theme.of(context).backgroundColor,
         body: SingleChildScrollView(
           child: Container(
