@@ -27,8 +27,8 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
   @override
   Widget build(BuildContext context) {
     final user = UserPreferences.myUser;
-    TextEditingController _txtTimeController = TextEditingController();
     TextEditingController _txtNomeMedController = TextEditingController();
+    TextEditingController _txtTimeController = TextEditingController();
     TextEditingController _txtQuantidadeMedController = TextEditingController();
 
     return Scaffold(

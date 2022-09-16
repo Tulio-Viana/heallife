@@ -18,7 +18,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
   TextEditingController _controllerSenhaPaciente = TextEditingController();
   TextEditingController _controllerUsuarioPaciente = TextEditingController();
   TextEditingController _controllerCelularPaciente = TextEditingController();
-  TextEditingController _controllerCPFPacient = TextEditingController();
+  TextEditingController _controllerCPFPaciente = TextEditingController();
   TextEditingController _controllerIdadePaciente = TextEditingController();
 
   Future<bool> _onWillPop() async {
@@ -110,7 +110,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         CpfInputFormatter(),
                         Mask.cpf()
                       ],
-                      controller: _controllerCPFPacient,
+                      controller: _controllerCPFPaciente,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -229,7 +229,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         print(_controllerEmailPaciente.text.trim());
                         print(_controllerSenhaPaciente.text.trim());
                         print(_controllerCelularPaciente.text.trim());
-                        print(_controllerCPFPacient.text.trim());
+                        print(_controllerCPFPaciente.text.trim());
                       }
                     },
                   ),
