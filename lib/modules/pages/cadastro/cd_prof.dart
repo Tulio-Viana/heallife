@@ -15,12 +15,14 @@ class Cd_Prof_Page extends StatefulWidget {
 
 class _CdProfPageState extends State<Cd_Prof_Page> {
   GlobalKey<FormState> _fromState = GlobalKey<FormState>();
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerSenha = TextEditingController();
-  TextEditingController _controllerUsuario = TextEditingController();
-  TextEditingController _controllerCelular = TextEditingController();
-  TextEditingController _controllerCPF = TextEditingController();
-  TextEditingController _controllerCOREN = TextEditingController();
+  TextEditingController _controllerEmailProfissional = TextEditingController();
+  TextEditingController _controllerSenhaProfissional = TextEditingController();
+  TextEditingController _controllerUsuarioProfissional =
+      TextEditingController();
+  TextEditingController _controllerCelularProfissional =
+      TextEditingController();
+  TextEditingController _controllerCPFProfissional = TextEditingController();
+  TextEditingController _controllerCORENProfissional = TextEditingController();
 
   Future<bool> _onWillPop() async {
     return false;
@@ -59,7 +61,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                     TextFormField(
                       inputFormatters: [LengthLimitingTextInputFormatter(75)],
                       keyboardType: TextInputType.name,
-                      controller: _controllerUsuario,
+                      controller: _controllerUsuarioProfissional,
                       validator: (value) =>
                           LoginFunctions().validarUsuario(value!),
                       style: TextStyle(
@@ -86,7 +88,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                         CpfInputFormatter(),
                         Mask.cpf()
                       ],
-                      controller: _controllerCPF,
+                      controller: _controllerCPFProfissional,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -111,7 +113,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(6),
                       ],
-                      controller: _controllerCOREN,
+                      controller: _controllerCORENProfissional,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -135,7 +137,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                         FilteringTextInputFormatter.digitsOnly,
                         TelefoneInputFormatter(),
                       ],
-                      controller: _controllerCelular,
+                      controller: _controllerCelularProfissional,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -158,7 +160,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                         LengthLimitingTextInputFormatter(75),
                       ],
                       keyboardType: TextInputType.emailAddress,
-                      controller: _controllerEmail,
+                      controller: _controllerEmailProfissional,
                       validator: (value) =>
                           LoginFunctions().validarEmail(value!),
                       style: TextStyle(
@@ -182,7 +184,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(12),
                       ],
-                      controller: _controllerSenha,
+                      controller: _controllerSenhaProfissional,
                       validator: (value) =>
                           LoginFunctions().validarSenha(value!),
                       style: TextStyle(
@@ -229,12 +231,12 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                     ),
                     onPressed: () {
                       if (_fromState.currentState!.validate()) {
-                        print(_controllerUsuario.text.trim());
-                        print(_controllerEmail.text.trim());
-                        print(_controllerSenha.text.trim());
-                        print(_controllerCelular.text.trim());
-                        print(_controllerCPF.text.trim());
-                        print(_controllerCOREN.text.trim());
+                        print(_controllerUsuarioProfissional.text.trim());
+                        print(_controllerEmailProfissional.text.trim());
+                        print(_controllerSenhaProfissional.text.trim());
+                        print(_controllerCelularProfissional.text.trim());
+                        print(_controllerCPFProfissional.text.trim());
+                        print(_controllerCORENProfissional.text.trim());
                       }
                     },
                   ),

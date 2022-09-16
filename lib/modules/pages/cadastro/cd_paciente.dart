@@ -14,12 +14,12 @@ class Cd_Resp_Page extends StatefulWidget {
 
 class _CdRespPageState extends State<Cd_Resp_Page> {
   GlobalKey<FormState> _fromState = GlobalKey<FormState>();
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerSenha = TextEditingController();
-  TextEditingController _controllerUsuario = TextEditingController();
-  TextEditingController _controllerCelular = TextEditingController();
-  TextEditingController _controllerCPF = TextEditingController();
-  TextEditingController _controllerIdade = TextEditingController();
+  TextEditingController _controllerEmailPaciente = TextEditingController();
+  TextEditingController _controllerSenhaPaciente = TextEditingController();
+  TextEditingController _controllerUsuarioPaciente = TextEditingController();
+  TextEditingController _controllerCelularPaciente = TextEditingController();
+  TextEditingController _controllerCPFPacient = TextEditingController();
+  TextEditingController _controllerIdadePaciente = TextEditingController();
 
   Future<bool> _onWillPop() async {
     return false;
@@ -58,7 +58,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                     TextFormField(
                       inputFormatters: [LengthLimitingTextInputFormatter(75)],
                       keyboardType: TextInputType.name,
-                      controller: _controllerUsuario,
+                      controller: _controllerUsuarioPaciente,
                       validator: (value) =>
                           LoginFunctions().validarUsuario(value!),
                       style: TextStyle(
@@ -86,7 +86,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(3),
                       ],
-                      controller: _controllerIdade,
+                      controller: _controllerIdadePaciente,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -110,7 +110,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         CpfInputFormatter(),
                         Mask.cpf()
                       ],
-                      controller: _controllerCPF,
+                      controller: _controllerCPFPacient,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -134,7 +134,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         FilteringTextInputFormatter.digitsOnly,
                         TelefoneInputFormatter(),
                       ],
-                      controller: _controllerCelular,
+                      controller: _controllerCelularPaciente,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -157,7 +157,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         LengthLimitingTextInputFormatter(75),
                       ],
                       keyboardType: TextInputType.emailAddress,
-                      controller: _controllerEmail,
+                      controller: _controllerEmailPaciente,
                       validator: (value) =>
                           LoginFunctions().validarEmail(value!),
                       style: TextStyle(
@@ -178,7 +178,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                       height: 6,
                     ),
                     TextFormField(
-                      controller: _controllerSenha,
+                      controller: _controllerSenhaPaciente,
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(12),
                       ],
@@ -225,11 +225,11 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                     ),
                     onPressed: () {
                       if (_fromState.currentState!.validate()) {
-                        print(_controllerUsuario.text.trim());
-                        print(_controllerEmail.text.trim());
-                        print(_controllerSenha.text.trim());
-                        print(_controllerCelular.text.trim());
-                        print(_controllerCPF.text.trim());
+                        print(_controllerUsuarioPaciente.text.trim());
+                        print(_controllerEmailPaciente.text.trim());
+                        print(_controllerSenhaPaciente.text.trim());
+                        print(_controllerCelularPaciente.text.trim());
+                        print(_controllerCPFPacient.text.trim());
                       }
                     },
                   ),

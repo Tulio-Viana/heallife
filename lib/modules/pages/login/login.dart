@@ -18,8 +18,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _fromState = GlobalKey<FormState>();
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerSenha = TextEditingController();
+  TextEditingController _controllerEmailLogin = TextEditingController();
+  TextEditingController _controllerSenhaLogin = TextEditingController();
 
   late bool _obscurePass;
 
@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                           LengthLimitingTextInputFormatter(75),
                         ],
                         keyboardType: TextInputType.emailAddress,
-                        controller: _controllerEmail,
+                        controller: _controllerEmailLogin,
                         validator: (value) =>
                             LoginFunctions().validarEmail(value!),
                         style: TextStyle(
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(12),
                         ],
-                        controller: _controllerSenha,
+                        controller: _controllerSenhaLogin,
                         validator: (value) =>
                             LoginFunctions().validarSenha(value!),
                         style: TextStyle(
@@ -138,8 +138,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () {
                         if (_fromState.currentState!.validate()) {
-                          print(_controllerEmail.text.trim());
-                          print(_controllerSenha.text.trim());
+                          print(_controllerEmailLogin.text.trim());
+                          print(_controllerSenhaLogin.text.trim());
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => PaginaPrincipal()));
                         }
