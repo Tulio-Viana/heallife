@@ -15,14 +15,18 @@ class Cd_Prof_Page extends StatefulWidget {
 
 class _CdProfPageState extends State<Cd_Prof_Page> {
   GlobalKey<FormState> _fromState = GlobalKey<FormState>();
-  TextEditingController _controllerEmailProfissional = TextEditingController();
-  TextEditingController _controllerSenhaProfissional = TextEditingController();
-  TextEditingController _controllerUsuarioProfissional =
+  final TextEditingController _controllerEmailProfissional =
       TextEditingController();
-  TextEditingController _controllerCelularProfissional =
+  final TextEditingController _controllerSenhaProfissional =
       TextEditingController();
-  TextEditingController _controllerCPFProfissional = TextEditingController();
-  TextEditingController _controllerCORENProfissional = TextEditingController();
+  final TextEditingController _controllerUsuarioProfissional =
+      TextEditingController();
+  final TextEditingController _controllerCelularProfissional =
+      TextEditingController();
+  final TextEditingController _controllerCPFProfissional =
+      TextEditingController();
+  final TextEditingController _controllerCORENProfissional =
+      TextEditingController();
 
   Future<bool> _onWillPop() async {
     return false;
