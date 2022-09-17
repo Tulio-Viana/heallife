@@ -9,7 +9,8 @@ class UserPreferences {
 
   static const _keyUser = 'user';
   static const myUser = User(
-    imagePath: 'assets/images/avatar.png',
+    imagePath:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
     name: 'Túlio Viana',
     email: 't.viana2@icloud.com',
     about: 'Sou formado em ...',
