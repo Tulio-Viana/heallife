@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,6 +11,8 @@ import '../cadastro/cd_paciente.dart';
 import 'package:flutter/services.dart';
 
 import 'login_services.dart';
+
+final _firebaseAuth = FirebaseAuth.instance;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -140,12 +143,34 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () {
                         if (_fromState.currentState!.validate()) {
-                          login_services().login(_controllerEmailLogin.text,
-                              _controllerSenhaLogin.text);
+                          login(String email, String password) async {
+                            try {
+                              UserCredential userCredential =
+                                  await _firebaseAuth
+                                      .signInWithEmailAndPassword(
+                                          email: email, password: password);
+
+                              if (userCredential != null) {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => PaginaPrincipal()));
+                              }
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'user-not-found') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Usuário não encontrado"),
+                                        backgroundColor: Colors.redAccent));
+                              } else if (e.code == 'wrong-password') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Senha Incorreta"),
+                                        backgroundColor: Colors.redAccent));
+                              }
+                            }
+                          }
+
                           print(_controllerEmailLogin.text.trim());
                           print(_controllerSenhaLogin.text.trim());
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PaginaPrincipal()));
                         }
                       },
                     ),

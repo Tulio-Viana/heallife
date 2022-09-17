@@ -231,9 +231,6 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         print(_controllerSenhaPaciente.text.trim());
                         print(_controllerCelularPaciente.text.trim());
                         print(_controllerCPFPaciente.text.trim());
-
-                        login_services().login(_controllerEmailPaciente.text,
-                            _controllerSenhaPaciente.text);
                       }
                     },
                   ),
