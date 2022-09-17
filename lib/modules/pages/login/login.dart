@@ -143,7 +143,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: () {
                         if (_fromState.currentState!.validate()) {
-                          login(String email, String password) async {
+                          String email = _controllerEmailLogin.text;
+                          String password = _controllerSenhaLogin.text;
+                          login() async {
                             try {
                               UserCredential userCredential =
                                   await _firebaseAuth
@@ -160,17 +162,18 @@ class _LoginPageState extends State<LoginPage> {
                                     const SnackBar(
                                         content: Text("Usuário não encontrado"),
                                         backgroundColor: Colors.redAccent));
+                                print('email');
                               } else if (e.code == 'wrong-password') {
+                                print('Senha');
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text("Senha Incorreta"),
                                         backgroundColor: Colors.redAccent));
+                              } else {
+                                print('logado');
                               }
                             }
                           }
-
-                          print(_controllerEmailLogin.text.trim());
-                          print(_controllerSenhaLogin.text.trim());
                         }
                       },
                     ),
