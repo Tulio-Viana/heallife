@@ -174,6 +174,9 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             }
                           }
+
+                          print(_controllerEmailLogin.text.trim());
+                          print(_controllerSenhaLogin.text.trim());
                         }
                       },
                     ),
