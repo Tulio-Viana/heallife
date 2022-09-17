@@ -1,10 +1,14 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:idosos/modules/Perfis_e_Classes/paciente.dart';
 import 'package:idosos/modules/pages/login/login_services.dart';
 import 'package:mask/mask/mask.dart';
 import '../../../Functions/Login.functions.dart';
 import '../login/login.dart';
+import '../../Perfis_e_Classes/paciente.dart';
 
 class Cd_Resp_Page extends StatefulWidget {
   const Cd_Resp_Page({Key? key}) : super(key: key);
@@ -14,13 +18,19 @@ class Cd_Resp_Page extends StatefulWidget {
 }
 
 class _CdRespPageState extends State<Cd_Resp_Page> {
+  var bd = FirebaseFirestore.instance;
   GlobalKey<FormState> _fromState = GlobalKey<FormState>();
-  TextEditingController _controllerEmailPaciente = TextEditingController();
-  TextEditingController _controllerSenhaPaciente = TextEditingController();
-  TextEditingController _controllerUsuarioPaciente = TextEditingController();
-  TextEditingController _controllerCelularPaciente = TextEditingController();
-  TextEditingController _controllerCPFPaciente = TextEditingController();
-  TextEditingController _controllerIdadePaciente = TextEditingController();
+  final TextEditingController _controllerUsuarioPaciente =
+      TextEditingController();
+  final TextEditingController _controllerIdadePaciente =
+      TextEditingController();
+  final TextEditingController _controllerCPFPaciente = TextEditingController();
+  final TextEditingController _controllerCelularPaciente =
+      TextEditingController();
+  final TextEditingController _controllerEmailPaciente =
+      TextEditingController();
+  final TextEditingController _controllerSenhaPaciente =
+      TextEditingController();
 
   Future<bool> _onWillPop() async {
     return false;
@@ -130,6 +140,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                       height: 6,
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       validator: (value) => Mask.validations.phone(value),
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
@@ -224,7 +235,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_fromState.currentState!.validate()) {
                         print(_controllerUsuarioPaciente.text.trim());
                         print(_controllerEmailPaciente.text.trim());
