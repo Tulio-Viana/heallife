@@ -17,7 +17,7 @@ class Perfil extends StatefulWidget {
 class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.myUser;
+    final user = UserPreferences.getUser();
 
     return Scaffold(
       appBar: buildAppBar(context),
@@ -26,9 +26,10 @@ class _PerfilState extends State<Perfil> {
         children: [
           ProfileWidget(
             imagePath: user.imagePath,
-            onClicked: () {
-              Navigator.of(context).push(
+            onClicked: () async {
+              await Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => EditProfilePage()));
+              setState(() {});
             },
           ),
           const SizedBox(
