@@ -48,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             label: 'Sobre',
             text: user.about,
             maxLines: 5,
-            onChanged: (about) {},
+            onChanged: (about) => user = user.copy(about: about),
           ),
           const SizedBox(
             height: 40,
@@ -71,8 +71,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => PaginaPrincipal()));
+                  UserPreferences.setUser(user);
+                  Navigator.of(context).pop();
                 },
               ))
         ],

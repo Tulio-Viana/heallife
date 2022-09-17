@@ -32,12 +32,14 @@ dependencies:
   brasil_fields: 1.4.5
   mask: ^1.0.3
   mask_text_input_formatter: ^2.4.0
+  shared_preferences: ^2.0.5
+  path_provider: ^2.0.1
 
   cloud_firestore: ^3.4.8
   image_picker: ^0.8.5+3
   google_sign_in: ^5.4.1
   firebase_storage: ^10.3.8
-  firebase_auth: ^3.9.0
+  #  firebase_auth: ^3.9.0
   cupertino_icons: ^1.0.5
 
 dev_dependencies:
