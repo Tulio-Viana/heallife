@@ -13,14 +13,15 @@ import 'package:path/path.dart';
 import '../model/user.dart';
 import '../widget/textfield_widget.dart';
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+class EditProfilePagePaciente extends StatefulWidget {
+  const EditProfilePagePaciente({Key? key}) : super(key: key);
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<EditProfilePagePaciente> createState() =>
+      _EditProfilePagePacienteState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
   late User user;
 
   @override
@@ -70,7 +71,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             height: 44,
           ),
           TextFieldWidget(
-            label: 'Sobre',
+            label:
+                'Observações (caso queira adicionar alguma observação sobre o tratamento)',
             text: user.about,
             maxLines: 5,
             onChanged: (about) => user = user.copy(about: about),

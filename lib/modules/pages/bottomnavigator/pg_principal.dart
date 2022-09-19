@@ -24,7 +24,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  bool Cuidador = true;
+  bool Cuidador = false;
   late List<Widget> _widgetOptions;
   @override
   void initState() {
