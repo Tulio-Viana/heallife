@@ -71,8 +71,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
             height: 44,
           ),
           TextFieldWidget(
-            label:
-                'Observações (caso queira adicionar alguma observação sobre o tratamento)',
+            label: 'Observações (tratamentos ou necessidades específicas)',
             text: user.about,
             maxLines: 5,
             onChanged: (about) => user = user.copy(about: about),

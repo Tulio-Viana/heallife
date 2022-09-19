@@ -50,13 +50,13 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
           ),
           buildName(user),
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
           buildTratamentos(user, _txtTimeController, _txtNomeMedController,
               _txtQuantidadeMedController, context),
           buildObs(user),
           SizedBox(
-            height: 24,
+            height: 40,
           )
         ],
       ),
@@ -66,7 +66,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
 
 Widget buildObs(User user) => Container(
     child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+        padding: EdgeInsets.fromLTRB(60, 20, 0, 0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(
             height: 24,
