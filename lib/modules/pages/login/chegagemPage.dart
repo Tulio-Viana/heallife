@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:idosos/modules/pages/bottomnavigator/homepagePACIENTE.dart';
+import 'package:idosos/modules/pages/bottomnavigator/pg_principal.dart';
 import 'package:idosos/modules/pages/login/login.dart';
 
 class checagemPage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _checagemPageState extends State<checagemPage> {
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => homepagePaciente()));
+            MaterialPageRoute(builder: (context) => PaginaPrincipal()));
       }
     });
   }
