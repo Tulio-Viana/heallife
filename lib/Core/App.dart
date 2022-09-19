@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idosos/modules/pages/login/chegagemPage.dart';
 
 import '../modules/pages/login/login.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue.shade300,
         backgroundColor: Colors.white,
       ),
-      home: const LoginPage(),
+      home: const checagemPage(),
     );
   }
 }
