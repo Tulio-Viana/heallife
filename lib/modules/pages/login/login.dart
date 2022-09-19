@@ -1,4 +1,3 @@
-import 'dart:js';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    ObterPerfil();
     super.initState();
     _obscurePass = true;
   }
@@ -147,9 +147,10 @@ class _LoginPageState extends State<LoginPage> {
                           String email = _controllerEmailLogin.text;
                           String password = _controllerSenhaLogin.text;
 
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => PaginaPrincipal()));
+                          login(email, password, context);
+                          // Navigator.of(context).pushReplacement(
+                          //     MaterialPageRoute(
+                          //         builder: (context) => PaginaPrincipal()));
 
                           print(_controllerEmailLogin.text.trim());
                           print(_controllerSenhaLogin.text.trim());
