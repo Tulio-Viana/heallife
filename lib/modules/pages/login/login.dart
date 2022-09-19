@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    ObterPerfil();
     super.initState();
     _obscurePass = true;
   }
@@ -146,9 +147,10 @@ class _LoginPageState extends State<LoginPage> {
                           String email = _controllerEmailLogin.text;
                           String password = _controllerSenhaLogin.text;
 
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => PaginaPrincipal()));
+                          login(email, password, context);
+                          // Navigator.of(context).pushReplacement(
+                          //     MaterialPageRoute(
+                          //         builder: (context) => PaginaPrincipal()));
 
                           print(_controllerEmailLogin.text.trim());
                           print(_controllerSenhaLogin.text.trim());
