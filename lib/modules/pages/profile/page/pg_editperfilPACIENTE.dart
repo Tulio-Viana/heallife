@@ -22,7 +22,7 @@ class EditProfilePagePaciente extends StatefulWidget {
 }
 
 class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
-  late Usuario user;
+  late User user;
 
   @override
   void initState() {

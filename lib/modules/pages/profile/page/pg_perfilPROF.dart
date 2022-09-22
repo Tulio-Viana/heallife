@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:idosos/modules/pages/login/login_services.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
@@ -79,6 +80,28 @@ Widget buildAbout(User user) => Container(
             Text(
               user.about,
               style: TextStyle(fontSize: 16, height: 1.4),
+            ),
+            Align(
+              child: Padding(
+                padding: EdgeInsets.only(top: 150),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(
+                            color: Colors.blue,
+                            width: 2,
+                          ))),
+                  onPressed: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
+                    child: Text(
+                      "Sair",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
             )
           ],
         ),

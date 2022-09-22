@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:idosos/modules/pages/login/login.dart';
 import 'package:idosos/shared/routes.dart';
 
 import '../bottomnavigator/pg_principal.dart';
@@ -15,6 +16,11 @@ ObterPerfil() {
       print(user.uid);
     }
   });
+}
+
+deslogar(context) async {
+  await _firebaseAuth.signOut().then((User) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => LoginPage())));
 }
 
 login(String email, String password, context) async {

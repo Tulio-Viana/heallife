@@ -21,7 +21,7 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  late Usuario user;
+  late User user;
 
   @override
   void initState() {
