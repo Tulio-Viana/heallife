@@ -64,7 +64,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
   }
 }
 
-Widget buildObs(User user) => Container(
+Widget buildObs(Usuario user) => Container(
     child: Padding(
         padding: EdgeInsets.fromLTRB(60, 20, 0, 0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -82,7 +82,7 @@ Widget buildObs(User user) => Container(
           )
         ])));
 
-Widget buildName(User user) => Column(
+Widget buildName(Usuario user) => Column(
       children: [
         Text(
           user.name,
@@ -99,7 +99,7 @@ Widget buildName(User user) => Column(
     );
 
 Widget buildTratamentos(
-        User user,
+        Usuario user,
         TextEditingController _txtTimeController,
         TextEditingController _txtNomeMedController,
         TextEditingController _txtQuantidadeMedController,
