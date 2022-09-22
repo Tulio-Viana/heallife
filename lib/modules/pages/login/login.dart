@@ -30,8 +30,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    ObterPerfil();
     super.initState();
+    ObterPerfil();
     _obscurePass = true;
   }
 
