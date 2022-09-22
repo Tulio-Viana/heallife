@@ -9,6 +9,7 @@ import 'package:mask/mask/mask.dart';
 import '../../../Functions/Login.functions.dart';
 import '../login/login.dart';
 import '../../Perfis_e_Classes/paciente.dart';
+import 'package:search_cep/search_cep.dart';
 
 class Cd_Resp_Page extends StatefulWidget {
   const Cd_Resp_Page({Key? key}) : super(key: key);
@@ -31,6 +32,25 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
       TextEditingController();
   final TextEditingController _controllerSenhaPaciente =
       TextEditingController();
+  final TextEditingController _controllerCepPaciente = TextEditingController();
+  final TextEditingController _controllerCidadePaciente =
+      TextEditingController();
+  final TextEditingController _controllerEstadoPaciente =
+      TextEditingController();
+
+  void main() async {
+    final viaCepSearchCep = ViaCepSearchCep();
+    final infoCepJSON =
+        await viaCepSearchCep.searchInfoByCep(cep: _controllerCepPaciente.text);
+    print(infoCepJSON);
+    infoCepJSON.toString().split(",");
+    print(infoCepJSON.toString().split(",")[4].split(":")[1]);
+    _controllerCidadePaciente.text =
+        infoCepJSON.toString().split(",")[4].split(":")[1];
+    _controllerEstadoPaciente.text =
+        infoCepJSON.toString().split(",")[5].split(":")[1];
+    print(_controllerEstadoPaciente.text);
+  }
 
   Future<bool> _onWillPop() async {
     return false;
@@ -140,6 +160,29 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                       height: 6,
                     ),
                     TextFormField(
+                      inputFormatters: [LengthLimitingTextInputFormatter(75)],
+                      keyboardType: TextInputType.name,
+                      controller: _controllerCepPaciente,
+                      // validator: (value) =>
+                      //     LoginFunctions().validarUsuario(value!),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        errorStyle: TextStyle(fontSize: 15),
+                        border: OutlineInputBorder(),
+                        hintText: "CEP",
+                        hintStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    TextFormField(
                       keyboardType: TextInputType.number,
                       validator: (value) => Mask.validations.phone(value),
                       inputFormatters: [
@@ -236,6 +279,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                       ),
                     ),
                     onPressed: () async {
+                      main();
                       if (_fromState.currentState!.validate()) {
                         print(_controllerUsuarioPaciente.text.trim());
                         print(_controllerEmailPaciente.text.trim());
