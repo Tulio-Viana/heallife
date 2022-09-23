@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:search_cep/search_cep.dart';
+
 class LoginFunctions {
   String? validarEmail(String value) {
     String pattern =
@@ -38,7 +41,19 @@ class LoginFunctions {
 
   String? validarIdade(String value) {
     if (value.isEmpty) {
-      return "Informe sua idade:";
+      return "Informe sua idade";
+    } else {
+      return null;
+    }
+  }
+
+  String? validarCEP(String value) {
+    String pattern = r'[0-9]{5}[0-9]{3}';
+    RegExp regExp = new RegExp(pattern);
+    if (value.isEmpty) {
+      return "Informe o CEP";
+    } else if (!regExp.hasMatch(value)) {
+      return "CEP inválido";
     } else {
       return null;
     }

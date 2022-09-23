@@ -1,14 +1,17 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:path_provider/path_provider.dart';
 import '../model/user.dart';
 import '../widget/profile_widget.dart';
+import 'package:path/path.dart';
 
 class PerfilPaciente extends StatefulWidget {
   const PerfilPaciente({Key? key}) : super(key: key);
@@ -27,7 +30,7 @@ final MaskTextInputFormatter timeMaskFormatter =
 class _PerfilPacienteState extends State<PerfilPaciente> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.getUser();
+    var user = UserPreferences.getUser();
     TextEditingController _txtNomeMedController = TextEditingController();
     TextEditingController _txtTimeController = TextEditingController();
     TextEditingController _txtQuantidadeMedController = TextEditingController();
@@ -38,49 +41,35 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: user.imagePath,
-            onClicked: () async {
-              await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => EditProfilePagePaciente()));
-              setState(() {});
-            }, //para editar a imagem vai ser aqui
-          ),
+              imagePath: user.imagePath,
+              onClicked: () async {
+                final image =
+                    await ImagePicker().getImage(source: ImageSource.gallery);
+
+                if (image == null) return;
+
+                final directory = await getApplicationDocumentsDirectory();
+                final name = basename(image.path);
+                final imageFile = File('${directory.path}/$name');
+                final newImage = await File(image.path).copy(imageFile.path);
+
+                setState(() => user = user.copy(imagePath: newImage.path));
+              } //para editar a imagem vai ser aqui
+              ),
           const SizedBox(
             height: 24,
           ),
           buildName(user),
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
           buildTratamentos(user, _txtTimeController, _txtNomeMedController,
               _txtQuantidadeMedController, context),
-          buildObs(user),
-          SizedBox(
-            height: 40,
-          )
         ],
       ),
     );
   }
 }
-
-Widget buildObs(User user) => Container(
-    child: Padding(
-        padding: EdgeInsets.fromLTRB(60, 20, 0, 0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-            height: 24,
-          ),
-          Text('Observações',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          SizedBox(
-            height: 16,
-          ),
-          Text(
-            user.about,
-            style: TextStyle(fontSize: 16, height: 1.4),
-          )
-        ])));
 
 Widget buildName(User user) => Column(
       children: [

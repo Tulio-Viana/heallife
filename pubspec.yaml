@@ -27,11 +27,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  table_calendar: ^3.0.7
+  table_calendar: ^3.0.7 
   intl: ^0.17.0
   flutter:
     sdk: flutter
-  brasil_fields: 1.4.5
+  brasil_fields: 1.5.0
   mask: ^1.0.3
   mask_text_input_formatter: ^2.4.0
   shared_preferences: ^2.0.5
@@ -43,6 +43,7 @@ dependencies:
   firebase_storage: ^10.3.8
   firebase_auth: ^3.9.0
   cupertino_icons: ^1.0.5
+  search_cep: ^4.0.1
 
 dev_dependencies:
   flutter_test:
