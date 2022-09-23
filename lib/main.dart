@@ -13,6 +13,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await UserPreferences.init();
   // Disable persistence on web platforms
-  await FirebaseAuth.instance.setPersistence(Persistence.NONE);
+
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }

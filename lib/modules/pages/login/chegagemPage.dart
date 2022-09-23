@@ -16,23 +16,21 @@ class checagemPage extends StatefulWidget {
 
 class _checagemPageState extends State<checagemPage> {
   @override
-  void initState() {
-    super.initState();
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
-      } else {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => PaginaPrincipal()));
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
+    return StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snap) {
+          print(snap.data == null);
+
+          if (snap.connectionState == ConnectionState.waiting) {
+            return Scaffold(body: Center(child: CircularProgressIndicator()));
+          } else {
+            if (snap.data == null) {
+              return LoginPage();
+            } else {
+              return PaginaPrincipal();
+            }
+          }
+        });
   }
 }
