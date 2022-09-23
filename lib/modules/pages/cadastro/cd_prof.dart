@@ -35,19 +35,39 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
       TextEditingController();
   final TextEditingController _controllerEstadoProfissional =
       TextEditingController();
+  String ErroCep = '';
+  bool loading = false;
 
-  void main() async {
-    final viaCepSearchCep = ViaCepSearchCep();
-    final infoCepJSON = await viaCepSearchCep.searchInfoByCep(
-        cep: _controllerCepProfissional.text);
-    print(infoCepJSON);
-    infoCepJSON.toString().split(",");
-    print(infoCepJSON.toString().split(",")[4].split(":")[1]);
-    _controllerCidadeProfissional.text =
-        infoCepJSON.toString().split(",")[4].split(":")[1];
-    _controllerEstadoProfissional.text =
-        infoCepJSON.toString().split(",")[5].split(":")[1];
-    print(_controllerEstadoProfissional.text);
+  main() async {
+    try {
+      setState(() {
+        loading = true;
+      });
+      final viaCepSearchCep = ViaCepSearchCep();
+      final infoCepJSON = await viaCepSearchCep.searchInfoByCep(
+          cep: _controllerCepProfissional.text);
+      print(infoCepJSON);
+      if (infoCepJSON.toString().contains("error")) {
+        throw Exception("CEP inexistente");
+      } else {
+        infoCepJSON.toString().split(",");
+        print(infoCepJSON.toString().split(",")[4].split(":")[1]);
+        _controllerCidadeProfissional.text =
+            infoCepJSON.toString().split(",")[4].split(":")[1];
+        _controllerEstadoProfissional.text =
+            infoCepJSON.toString().split(",")[5].split(":")[1];
+
+        print(_controllerEstadoProfissional.text);
+      }
+      setState(() {
+        loading = false;
+      });
+    } catch (erro) {
+      print(erro.toString());
+      ErroCep = erro.toString();
+      setState(() {});
+    }
+    ;
   }
 
   Future<bool> _onWillPop() async {
@@ -156,28 +176,46 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                     SizedBox(
                       height: 6,
                     ),
-                    TextFormField(
-                      onChanged: (value) => main(),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(8),
-                      ],
-                      keyboardType: TextInputType.number,
-                      controller: _controllerCepProfissional,
-                      validator: (value) => LoginFunctions().validarCEP(value!),
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        errorStyle: TextStyle(fontSize: 15),
-                        border: OutlineInputBorder(),
-                        hintText: "CEP",
-                        hintStyle: TextStyle(
-                          color: Colors.black,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          onChanged: (val) async {
+                            ErroCep = "";
+                            setState(() {});
+                            if (val.length >= 8) {
+                              await main();
+                            }
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(8),
+                          ],
+                          keyboardType: TextInputType.number,
+                          controller: _controllerCepProfissional,
+                          validator: (value) =>
+                              LoginFunctions().validarCEP(value!),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(fontSize: 15),
+                            border: OutlineInputBorder(),
+                            hintText: "CEP",
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            prefixIcon: Icon(Icons.location_on),
+                          ),
                         ),
-                        prefixIcon: Icon(Icons.location_on),
-                      ),
+                        ErroCep.isNotEmpty
+                            ? Text(
+                                ErroCep,
+                                style: TextStyle(color: Colors.red),
+                              )
+                            : Container()
+                      ],
                     ),
                     SizedBox(
                       height: 6,
@@ -281,7 +319,8 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                       ),
                     ),
                     onPressed: () {
-                      if (_fromState.currentState!.validate()) {
+                      if (_fromState.currentState!.validate() &&
+                          ErroCep.isEmpty) {
                         criarUsuario(_controllerEmailProfissional.text,
                             _controllerSenhaProfissional.text);
                         print(_controllerUsuarioProfissional.text.trim());

@@ -37,19 +37,39 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
       TextEditingController();
   final TextEditingController _controllerEstadoPaciente =
       TextEditingController();
+  String ErroCep = '';
+  bool loading = false;
 
-  void main() async {
-    final viaCepSearchCep = ViaCepSearchCep();
-    final infoCepJSON =
-        await viaCepSearchCep.searchInfoByCep(cep: _controllerCepPaciente.text);
-    print(infoCepJSON);
-    infoCepJSON.toString().split(",");
-    print(infoCepJSON.toString().split(",")[4].split(":")[1]);
-    _controllerCidadePaciente.text =
-        infoCepJSON.toString().split(",")[4].split(":")[1];
-    _controllerEstadoPaciente.text =
-        infoCepJSON.toString().split(",")[5].split(":")[1];
-    print(_controllerEstadoPaciente.text);
+  main() async {
+    try {
+      setState(() {
+        loading = true;
+      });
+      final viaCepSearchCep = ViaCepSearchCep();
+      final infoCepJSON = await viaCepSearchCep.searchInfoByCep(
+          cep: _controllerCepPaciente.text);
+      print(infoCepJSON);
+      if (infoCepJSON.toString().contains("error")) {
+        throw Exception("CEP inexistente");
+      } else {
+        infoCepJSON.toString().split(",");
+        print(infoCepJSON.toString().split(",")[4].split(":")[1]);
+        _controllerCidadePaciente.text =
+            infoCepJSON.toString().split(",")[4].split(":")[1];
+        _controllerEstadoPaciente.text =
+            infoCepJSON.toString().split(",")[5].split(":")[1];
+
+        print(_controllerEstadoPaciente.text);
+      }
+      setState(() {
+        loading = false;
+      });
+    } catch (erro) {
+      print(erro.toString());
+      ErroCep = erro.toString();
+      setState(() {});
+    }
+    ;
   }
 
   Future<bool> _onWillPop() async {
@@ -159,27 +179,46 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                     SizedBox(
                       height: 6,
                     ),
-                    TextFormField(
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(8),
-                      ],
-                      keyboardType: TextInputType.number,
-                      controller: _controllerCepPaciente,
-                      validator: (value) => LoginFunctions().validarCEP(value!),
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                        errorStyle: TextStyle(fontSize: 15),
-                        border: OutlineInputBorder(),
-                        hintText: "CEP",
-                        hintStyle: TextStyle(
-                          color: Colors.black,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          onChanged: (val) async {
+                            ErroCep = "";
+                            setState(() {});
+                            if (val.length >= 8) {
+                              await main();
+                            }
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(8),
+                          ],
+                          keyboardType: TextInputType.number,
+                          controller: _controllerCepPaciente,
+                          validator: (value) =>
+                              LoginFunctions().validarCEP(value!),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(fontSize: 15),
+                            border: OutlineInputBorder(),
+                            hintText: "CEP",
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            prefixIcon: Icon(Icons.location_on),
+                          ),
                         ),
-                        prefixIcon: Icon(Icons.location_on),
-                      ),
+                        ErroCep.isNotEmpty
+                            ? Text(
+                                ErroCep,
+                                style: TextStyle(color: Colors.red),
+                              )
+                            : Container()
+                      ],
                     ),
                     SizedBox(
                       height: 6,
@@ -282,7 +321,8 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                     ),
                     onPressed: () async {
                       main();
-                      if (_fromState.currentState!.validate()) {
+                      if (_fromState.currentState!.validate() &&
+                          ErroCep.isEmpty) {
                         print(_controllerUsuarioPaciente.text.trim());
                         print(_controllerEmailPaciente.text.trim());
                         print(_controllerSenhaPaciente.text.trim());

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:idosos/main.dart';
 import 'package:search_cep/search_cep.dart';
 
 class LoginFunctions {
@@ -48,14 +49,21 @@ class LoginFunctions {
   }
 
   String? validarCEP(String value) {
-    String pattern = r'[0-9]{5}[0-9]{3}';
-    RegExp regExp = new RegExp(pattern);
-    if (value.isEmpty) {
-      return "Informe o CEP";
-    } else if (!regExp.hasMatch(value)) {
-      return "CEP inválido";
+    final viaCepSearchCep = ViaCepSearchCep();
+    final infoCepJSON = viaCepSearchCep.searchInfoByCep(cep: value);
+
+    if (infoCepJSON.toString().contains("error")) {
+      return "CEP inexistente";
     } else {
-      return null;
+      String pattern = r'[0-9]{5}[0-9]{3}';
+      RegExp regExp = new RegExp(pattern);
+      if (value.isEmpty) {
+        return "Informe o CEP";
+      } else if (!regExp.hasMatch(value)) {
+        return "CEP inválido";
+      } else {
+        return null;
+      }
     }
   }
 }
