@@ -162,7 +162,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                     TextFormField(
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
-                        CepInputFormatter(),
+                        LengthLimitingTextInputFormatter(8),
                       ],
                       keyboardType: TextInputType.number,
                       controller: _controllerCepPaciente,

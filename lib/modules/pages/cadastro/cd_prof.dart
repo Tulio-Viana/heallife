@@ -159,7 +159,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                       onChanged: (value) => main(),
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
-                        CepInputFormatter(),
+                        LengthLimitingTextInputFormatter(8),
                       ],
                       keyboardType: TextInputType.number,
                       controller: _controllerCepProfissional,

@@ -48,17 +48,13 @@ class LoginFunctions {
   }
 
   String? validarCEP(String value) {
-    String pattern = r'[0-9]{2}.[0-9]{3}-[0-9]{3}';
+    String pattern = r'[0-9]{5}[0-9]{3}';
     RegExp regExp = new RegExp(pattern);
     if (value.isEmpty) {
       return "Informe o CEP";
     } else if (!regExp.hasMatch(value)) {
       return "CEP inválido";
-    }
-    // if (_controllerCidadePaciente.text == null) {
-    //   return 'Cep Invalido';
-    // }
-    else {
+    } else {
       return null;
     }
   }
