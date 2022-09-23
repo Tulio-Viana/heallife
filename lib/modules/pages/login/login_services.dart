@@ -19,8 +19,7 @@ ObterPerfil() {
 }
 
 deslogar(context) async {
-  await _firebaseAuth.signOut().then((User) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => LoginPage())));
+  await _firebaseAuth.signOut();
 }
 
 login(String email, String password, context) async {
