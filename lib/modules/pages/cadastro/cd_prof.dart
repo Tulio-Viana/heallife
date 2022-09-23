@@ -1,6 +1,7 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:idosos/modules/pages/cadastro/cadastroServices.dart';
 import 'package:mask/mask/mask.dart';
 import '../../../Functions/Login.functions.dart';
 import '../login/login.dart';
@@ -235,6 +236,8 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                     ),
                     onPressed: () {
                       if (_fromState.currentState!.validate()) {
+                        criarUsuario(_controllerEmailProfissional.text,
+                            _controllerSenhaProfissional.text);
                         print(_controllerUsuarioProfissional.text.trim());
                         print(_controllerEmailProfissional.text.trim());
                         print(_controllerSenhaProfissional.text.trim());

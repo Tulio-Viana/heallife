@@ -25,23 +25,18 @@ deslogar(context) async {
 
 login(String email, String password, context) async {
   try {
-    UserCredential userCredential = await _firebaseAuth
+    UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-
-    if (userCredential != null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => PaginaPrincipal()));
-    }
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
+    if (e.code == 'weak-password') {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Senha Incorreta"), backgroundColor: Colors.redAccent));
+    } else if (e.code == 'email-already-in-use') {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Usuário não encontrado"),
           backgroundColor: Colors.redAccent));
-    } else if (e.code == 'wrong-password') {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Senha Incorreta"), backgroundColor: Colors.redAccent));
-    } else {
-      print(e.message);
     }
+  } catch (e) {
+    print(e);
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:idosos/modules/pages/bottomnavigator/homepagePACIENTE.dart';
 import 'package:idosos/modules/pages/bottomnavigator/homepagePROF.dart';
+import 'package:idosos/modules/pages/profile/page/perfilProfissional.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
 import 'package:idosos/modules/pages/bottomnavigator/pg_ranking.dart';
@@ -33,7 +34,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
     _widgetOptions = <Widget>[
       Ranking(),
       Cuidador ? HomePageProf() : homepagePaciente(),
-      Cuidador ? Perfil() : PerfilPaciente()
+      Cuidador ? PerfilProfissional() : PerfilPaciente()
     ];
   }
 

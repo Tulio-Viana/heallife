@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:idosos/modules/pages/login/login_services.dart';
 
 class PerfilProfissional extends StatefulWidget {
   const PerfilProfissional({Key? key}) : super(key: key);
@@ -31,7 +32,9 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
                           color: Colors.blue,
                           width: 2,
                         ))),
-                onPressed: () {},
+                onPressed: () {
+                  deslogar(context);
+                },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
                   child: Text(
