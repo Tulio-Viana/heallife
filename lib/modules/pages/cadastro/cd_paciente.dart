@@ -160,11 +160,13 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                       height: 6,
                     ),
                     TextFormField(
-                      inputFormatters: [LengthLimitingTextInputFormatter(75)],
-                      keyboardType: TextInputType.name,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        CepInputFormatter(),
+                      ],
+                      keyboardType: TextInputType.number,
                       controller: _controllerCepPaciente,
-                      // validator: (value) =>
-                      //     LoginFunctions().validarUsuario(value!),
+                      validator: (value) => LoginFunctions().validarCEP(value!),
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -176,7 +178,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         hintStyle: TextStyle(
                           color: Colors.black,
                         ),
-                        prefixIcon: Icon(Icons.person),
+                        prefixIcon: Icon(Icons.location_on),
                       ),
                     ),
                     SizedBox(
@@ -286,6 +288,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                         print(_controllerSenhaPaciente.text.trim());
                         print(_controllerCelularPaciente.text.trim());
                         print(_controllerCPFPaciente.text.trim());
+                        print(_controllerCepPaciente.text.trim());
                       }
                     },
                   ),

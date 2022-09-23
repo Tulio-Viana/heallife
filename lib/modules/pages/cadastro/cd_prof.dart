@@ -28,6 +28,26 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
       TextEditingController();
   final TextEditingController _controllerCORENProfissional =
       TextEditingController();
+  final TextEditingController _controllerCepProfissional =
+      TextEditingController();
+  final TextEditingController _controllerCidadeProfissional =
+      TextEditingController();
+  final TextEditingController _controllerEstadoProfissional =
+      TextEditingController();
+
+  void main() async {
+    final viaCepSearchCep = ViaCepSearchCep();
+    final infoCepJSON = await viaCepSearchCep.searchInfoByCep(
+        cep: _controllerCepProfissional.text);
+    print(infoCepJSON);
+    infoCepJSON.toString().split(",");
+    print(infoCepJSON.toString().split(",")[4].split(":")[1]);
+    _controllerCidadeProfissional.text =
+        infoCepJSON.toString().split(",")[4].split(":")[1];
+    _controllerEstadoProfissional.text =
+        infoCepJSON.toString().split(",")[5].split(":")[1];
+    print(_controllerEstadoProfissional.text);
+  }
 
   Future<bool> _onWillPop() async {
     return false;
@@ -91,7 +111,6 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         CpfInputFormatter(),
-                        Mask.cpf()
                       ],
                       controller: _controllerCPFProfissional,
                       style: TextStyle(
@@ -131,6 +150,32 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                           color: Colors.black,
                         ),
                         prefixIcon: Icon(Icons.local_hospital),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    TextFormField(
+                      onChanged: (value) => main(),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        CepInputFormatter(),
+                      ],
+                      keyboardType: TextInputType.number,
+                      controller: _controllerCepProfissional,
+                      validator: (value) => LoginFunctions().validarCEP(value!),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        errorStyle: TextStyle(fontSize: 15),
+                        border: OutlineInputBorder(),
+                        hintText: "CEP",
+                        hintStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: Icon(Icons.location_on),
                       ),
                     ),
                     SizedBox(
@@ -242,6 +287,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                         print(_controllerCelularProfissional.text.trim());
                         print(_controllerCPFProfissional.text.trim());
                         print(_controllerCORENProfissional.text.trim());
+                        print(_controllerCepProfissional.text.trim());
                       }
                     },
                   ),
