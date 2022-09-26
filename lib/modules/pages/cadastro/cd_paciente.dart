@@ -1,5 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,8 @@ import '../../../Functions/Login.functions.dart';
 import '../login/login.dart';
 import '../../Perfis_e_Classes/paciente.dart';
 import 'package:search_cep/search_cep.dart';
+
+FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
 class Cd_Resp_Page extends StatefulWidget {
   const Cd_Resp_Page({Key? key}) : super(key: key);
@@ -40,38 +43,18 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
   final TextEditingController _controllerEstadoPaciente =
       TextEditingController();
   String ErroCep = '';
-  bool loading = false;
-
-  main() async {
-    try {
-      setState(() {
-        loading = true;
-      });
-      final viaCepSearchCep = ViaCepSearchCep();
-      final infoCepJSON = await viaCepSearchCep.searchInfoByCep(
-          cep: _controllerCepPaciente.text);
-      print(infoCepJSON);
-      if (infoCepJSON.toString().contains("error")) {
-        throw Exception("CEP inexistente");
-      } else {
-        infoCepJSON.toString().split(",");
-        print(infoCepJSON.toString().split(",")[4].split(":")[1]);
-        _controllerCidadePaciente.text =
-            infoCepJSON.toString().split(",")[4].split(":")[1];
-        _controllerEstadoPaciente.text =
-            infoCepJSON.toString().split(",")[5].split(":")[1];
-
-        print(_controllerEstadoPaciente.text);
-      }
-      setState(() {
-        loading = false;
-      });
-    } catch (erro) {
-      print(erro.toString());
-      ErroCep = erro.toString();
-      setState(() {});
-    }
-    ;
+  void main() async {
+    final viaCepSearchCep = ViaCepSearchCep();
+    final infoCepJSON =
+        await viaCepSearchCep.searchInfoByCep(cep: _controllerCepPaciente.text);
+    print(infoCepJSON);
+    infoCepJSON.toString().split(",");
+    print(infoCepJSON.toString().split(",")[4].split(":")[1]);
+    _controllerCidadePaciente.text =
+        infoCepJSON.toString().split(",")[4].split(":")[1];
+    _controllerEstadoPaciente.text =
+        infoCepJSON.toString().split(",")[5].split(":")[1];
+    print(_controllerEstadoPaciente.text);
   }
 
   Future<bool> _onWillPop() async {
@@ -181,46 +164,27 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                     SizedBox(
                       height: 6,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextFormField(
-                          onChanged: (val) async {
-                            ErroCep = "";
-                            setState(() {});
-                            if (val.length >= 8) {
-                              await main();
-                            }
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(8),
-                          ],
-                          keyboardType: TextInputType.number,
-                          controller: _controllerCepPaciente,
-                          validator: (value) =>
-                              LoginFunctions().validarCEP(value!),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                          decoration: InputDecoration(
-                            errorStyle: TextStyle(fontSize: 15),
-                            border: OutlineInputBorder(),
-                            hintText: "CEP",
-                            hintStyle: TextStyle(
-                              color: Colors.black,
-                            ),
-                            prefixIcon: Icon(Icons.location_on),
-                          ),
-                        ),
-                        ErroCep.isNotEmpty
-                            ? Text(
-                                ErroCep,
-                                style: TextStyle(color: Colors.red),
-                              )
-                            : Container()
+                    TextFormField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(8),
                       ],
+                      keyboardType: TextInputType.number,
+                      controller: _controllerCepPaciente,
+                      validator: (value) => LoginFunctions().validarCEP(value!),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                      decoration: InputDecoration(
+                        errorStyle: TextStyle(fontSize: 15),
+                        border: OutlineInputBorder(),
+                        hintText: "CEP",
+                        hintStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                        prefixIcon: Icon(Icons.location_on),
+                      ),
                     ),
                     SizedBox(
                       height: 6,
@@ -325,15 +289,47 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                       main();
                       if (_fromState.currentState!.validate() &&
                           ErroCep.isEmpty) {
-                        print(_controllerUsuarioPaciente.text.trim());
-                        print(_controllerEmailPaciente.text.trim());
-                        print(_controllerSenhaPaciente.text.trim());
-                        print(_controllerCelularPaciente.text.trim());
-                        print(_controllerCPFPaciente.text.trim());
-                        print(_controllerCepPaciente.text.trim());
+                        if (await criarUsuario(_controllerEmailPaciente.text,
+                            _controllerSenhaPaciente.text, context)) {
+                          Map<String, String> dados = Map<String, String>();
 
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => PaginaPrincipal()));
+                          dados["nome"] = _controllerUsuarioPaciente.text;
+                          dados["celular"] = _controllerCelularPaciente.text;
+                          dados["cpf"] = _controllerCPFPaciente.text;
+                          dados["cep"] = _controllerCepPaciente.text;
+                          dados["cidade"] = _controllerCidadePaciente.text;
+                          dados["estado"] = _controllerEstadoPaciente.text;
+                          dados["Idade"] = _controllerIdadePaciente.text;
+
+                          print('Informacoes: \n$dados');
+
+                          PegarUsuario() async {
+                            User? usuario = await _firebaseAuth.currentUser;
+                            String id;
+                            print('passo 1');
+                            if (usuario != null) {
+                              print('passo 2');
+                              id = usuario.uid;
+                              if (id != null) {
+                                print('passo 3');
+                                SalvarInfosUsers(id, dados, "paciente");
+                              }
+                            }
+                          }
+
+                          PegarUsuario();
+
+                          print(_controllerUsuarioPaciente.text.trim());
+                          print(_controllerEmailPaciente.text.trim());
+                          print(_controllerSenhaPaciente.text.trim());
+                          print(_controllerCelularPaciente.text.trim());
+                          print(_controllerCPFPaciente.text.trim());
+                          print(_controllerCepPaciente.text.trim());
+
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => PaginaPrincipal()));
+                        }
                       }
                     },
                   ),

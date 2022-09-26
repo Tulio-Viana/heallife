@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:idosos/modules/pages/cadastro/cadastroServices.dart';
 import 'package:idosos/modules/pages/cadastro/cd_prof.dart';
 import 'package:idosos/modules/pages/cadastro/selec_cd.dart';
 import '../../../Functions/Login.functions.dart';
@@ -148,9 +149,6 @@ class _LoginPageState extends State<LoginPage> {
                           String password = _controllerSenhaLogin.text;
 
                           login(email, password, context);
-                          // Navigator.of(context).pushReplacement(
-                          //     MaterialPageRoute(
-                          //         builder: (context) => PaginaPrincipal()));
 
                           print(_controllerEmailLogin.text.trim());
                           print(_controllerSenhaLogin.text.trim());

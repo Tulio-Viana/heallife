@@ -1,12 +1,16 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:idosos/modules/pages/bottomnavigator/pg_principal.dart';
 import 'package:idosos/modules/pages/cadastro/cadastroServices.dart';
 import 'package:mask/mask/mask.dart';
 import '../../../Functions/Login.functions.dart';
 import '../login/login.dart';
 import 'package:flutter/services.dart';
 import 'package:search_cep/search_cep.dart';
+
+FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
 class Cd_Prof_Page extends StatefulWidget {
   const Cd_Prof_Page({Key? key}) : super(key: key);
@@ -318,18 +322,55 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_fromState.currentState!.validate() &&
                           ErroCep.isEmpty) {
-                        criarUsuario(_controllerEmailProfissional.text,
-                            _controllerSenhaProfissional.text);
-                        print(_controllerUsuarioProfissional.text.trim());
-                        print(_controllerEmailProfissional.text.trim());
-                        print(_controllerSenhaProfissional.text.trim());
-                        print(_controllerCelularProfissional.text.trim());
-                        print(_controllerCPFProfissional.text.trim());
-                        print(_controllerCORENProfissional.text.trim());
-                        print(_controllerCepProfissional.text.trim());
+                        if (await criarUsuario(
+                            _controllerEmailProfissional.text,
+                            _controllerSenhaProfissional.text,
+                            context)) {
+                          Map<String, String> dados = Map<String, String>();
+
+                          dados["nome"] = _controllerUsuarioProfissional.text;
+                          dados["celular"] =
+                              _controllerCelularProfissional.text;
+                          dados["cpf"] = _controllerCPFProfissional.text;
+                          dados["coren"] = _controllerCORENProfissional.text;
+                          dados["cep"] = _controllerCepProfissional.text;
+                          dados["cidade"] = _controllerCidadeProfissional.text;
+                          dados["estado"] = _controllerEstadoProfissional.text;
+
+                          print('Informacoes: \n$dados');
+
+                          PegarUsuario() async {
+                            User? usuario = await _firebaseAuth.currentUser;
+                            String id;
+                            print('passo 1');
+                            if (usuario != null) {
+                              print('passo 2');
+                              id = usuario.uid;
+                              if (id != null) {
+                                print('passo 3');
+                                SalvarInfosUsers(id, dados, "profissional");
+                              }
+                            }
+                          }
+
+                          PegarUsuario();
+
+                          print("Passo4");
+                          print(_controllerUsuarioProfissional.text.trim());
+                          print(_controllerEmailProfissional.text.trim());
+                          print(_controllerSenhaProfissional.text.trim());
+                          print(_controllerCelularProfissional.text.trim());
+                          print(_controllerCPFProfissional.text.trim());
+                          print(_controllerCORENProfissional.text.trim());
+                          print(_controllerCepProfissional.text.trim());
+
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => PaginaPrincipal()));
+                        }
                       }
                     },
                   ),

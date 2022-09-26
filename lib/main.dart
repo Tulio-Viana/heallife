@@ -14,6 +14,5 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await UserPreferences.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
