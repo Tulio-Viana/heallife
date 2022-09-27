@@ -21,13 +21,13 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  late User user;
+  late UserProf user;
 
   @override
   void initState() {
     super.initState();
 
-    user = UserPreferences.getUser();
+    user = UserPreferencesProf.getUser();
   }
 
   @override
@@ -47,7 +47,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-              imagePath: user.imagePath,
+              imagePath: user.imagePathProf,
               isEdit: true,
               onClicked: () async {
                 final image =
@@ -60,20 +60,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 final imageFile = File('${directory.path}/$name');
                 final newImage = await File(image.path).copy(imageFile.path);
 
-                setState(() => user = user.copy(imagePath: newImage.path));
+                setState(() => user = user.copy(imagePathProf: newImage.path));
               }),
           SizedBox(
             height: 24,
           ),
-          buildName(user),
+          buildNameProf(user),
           const SizedBox(
             height: 44,
           ),
           TextFieldWidget(
             label: 'Sobre',
-            text: user.about,
+            text: user.sobreProf,
             maxLines: 5,
-            onChanged: (about) => user = user.copy(about: about),
+            onChanged: (about) => user = user.copy(sobreProf: about),
           ),
           const SizedBox(
             height: 40,
@@ -96,7 +96,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 onPressed: () {
-                  UserPreferences.setUser(user);
+                  UserPreferencesProf.setUser(user);
                   Navigator.of(context).pop();
                 },
               ))

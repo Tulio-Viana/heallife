@@ -18,7 +18,7 @@ class Perfil extends StatefulWidget {
 class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.getUser();
+    final user = UserPreferencesProf.getUser();
 
     return Scaffold(
       appBar: buildAppBar(context),
@@ -26,7 +26,7 @@ class _PerfilState extends State<Perfil> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: user.imagePath,
+            imagePath: user.imagePathProf,
             onClicked: () async {
               await Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => EditProfilePage()));
@@ -36,7 +36,7 @@ class _PerfilState extends State<Perfil> {
           const SizedBox(
             height: 24,
           ),
-          buildName(user),
+          buildNameProf(user),
           const SizedBox(
             height: 30,
           ),
@@ -47,23 +47,23 @@ class _PerfilState extends State<Perfil> {
   }
 }
 
-Widget buildName(User user) => Column(
+Widget buildNameProf(UserProf user) => Column(
       children: [
         Text(
-          user.name,
+          user.nameProf,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(
           height: 4,
         ),
         Text(
-          user.email,
+          user.emailProf,
           style: TextStyle(color: Colors.grey),
         )
       ],
     );
 
-Widget buildAbout(User user) => Container(
+Widget buildAbout(UserProf user) => Container(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 48),
         child: Column(
@@ -78,7 +78,7 @@ Widget buildAbout(User user) => Container(
               height: 16,
             ),
             Text(
-              user.about,
+              user.sobreProf,
               style: TextStyle(fontSize: 16, height: 1.4),
             ),
             Align(

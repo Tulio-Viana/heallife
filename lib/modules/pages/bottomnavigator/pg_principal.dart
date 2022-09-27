@@ -25,7 +25,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  bool Cuidador = true;
+  bool Cuidador = false;
   late List<Widget> _widgetOptions;
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
     _widgetOptions = <Widget>[
       Ranking(),
       Cuidador ? HomePageProf() : homepagePaciente(),
-      Cuidador ? PerfilProfissional() : PerfilPaciente()
+      Cuidador ? Perfil() : PerfilPaciente()
     ];
   }
 
