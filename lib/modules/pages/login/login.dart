@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _fromState = GlobalKey<FormState>();
   TextEditingController _controllerEmailLogin = TextEditingController();
   TextEditingController _controllerSenhaLogin = TextEditingController();
+  bool isloading = false;
 
   late bool _obscurePass;
 
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     ObterPerfil();
     _obscurePass = true;
+    isloading = false;
   }
 
   @override
@@ -143,16 +145,18 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        setState(() => isloading = true);
+
                         if (_fromState.currentState!.validate()) {
                           String email = _controllerEmailLogin.text;
                           String password = _controllerSenhaLogin.text;
 
-                          login(email, password, context);
-
-                          print(_controllerEmailLogin.text.trim());
-                          print(_controllerSenhaLogin.text.trim());
+                          await login(email, password, context, isloading);
                         }
+                        print(_controllerEmailLogin.text.trim());
+                        print(_controllerSenhaLogin.text.trim());
+                        setState((() => isloading = false));
                       },
                     ),
                   ),
@@ -192,9 +196,17 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  )
+                  isloading
+                      ? Padding(
+                          padding: EdgeInsets.all(16),
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child:
+                                CircularProgressIndicator(color: Colors.blue),
+                          ),
+                        )
+                      : Padding(padding: EdgeInsets.zero)
                 ],
               ),
             ],

@@ -22,18 +22,18 @@ deslogar(context) async {
   await _firebaseAuth.signOut();
 }
 
-login(String email, String password, context) async {
+login(String email, String password, context, isloading) async {
   try {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'weak-password') {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Senha Incorreta"), backgroundColor: Colors.redAccent));
-    } else if (e.code == 'email-already-in-use') {
+    if (e.code == 'user-not-found') {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Usuário não encontrado"),
           backgroundColor: Colors.redAccent));
+    } else if (e.code == 'wrong-password') {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Senha Incorreta"), backgroundColor: Colors.redAccent));
     }
   } catch (e) {
     print(e);
