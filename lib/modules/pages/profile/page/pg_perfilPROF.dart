@@ -16,102 +16,102 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
+  late UserProf user = const UserProf(
+    imagePathProf:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+    nameProf: "Tulio",
+    emailProf: "test@test.com",
+    sobreProf: 'Suas informações (Clique na foto para editar)',
+    numeroCllProf: "(37)99999-9999",
+    estadoProf: "MG",
+    cidadeProf: "Divinópolis",
+  );
+  var userPrefPac = UserPreferencesPaciente();
   @override
   Widget build(BuildContext context) {
-    UserProf user;
-
     return Scaffold(
-      appBar: buildAppBar(context),
-      body: FutureBuilder<UserProf>(
-          future: UserPreferencesProf.getUser(),
-          builder: (context, snap) {
-            if (snap.data != null) {
-              user = snap.data!;
-              return ListView(
-                physics: BouncingScrollPhysics(),
-                children: [
-                  ProfileWidget(
-                    imagePath: user.imagePathProf,
-                    onClicked: () async {
-                      await Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => EditProfilePage()));
-                      setState(() {});
-                    },
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  buildNameProf(user),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  buildAbout(user),
-                ],
-              );
-            }
-            return CircularProgressIndicator();
-          }),
-    );
-  }
-}
-
-Widget buildNameProf(UserProf user) => Column(
-      children: [
-        Text(
-          user.nameProf,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        Text(
-          user.emailProf,
-          style: TextStyle(color: Colors.grey),
-        )
-      ],
-    );
-
-Widget buildAbout(UserProf user) => Container(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        appBar: buildAppBar(context),
+        body: ListView(
+          physics: BouncingScrollPhysics(),
           children: [
-            SizedBox(
+            ProfileWidget(
+              imagePath: user.imagePathProf,
+              onClicked: () async {
+                await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => EditProfilePage()));
+                setState(() {});
+              },
+            ),
+            const SizedBox(
               height: 24,
             ),
-            Text('Sobre',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            SizedBox(
-              height: 16,
+            buildNameProf(user),
+            const SizedBox(
+              height: 30,
             ),
-            Text(
-              user.sobreProf,
-              style: TextStyle(fontSize: 16, height: 1.4),
-            ),
-            Align(
-              child: Padding(
-                padding: EdgeInsets.only(top: 150),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                            color: Colors.blue,
-                            width: 2,
-                          ))),
-                  onPressed: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
-                    child: Text(
-                      "Sair",
-                      style: TextStyle(fontSize: 20),
+            buildAbout(user),
+          ],
+        ));
+  }
+
+  Widget buildNameProf(UserProf user) => Column(
+        children: [
+          Text(
+            user.nameProf,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Text(
+            user.emailProf,
+            style: TextStyle(color: Colors.grey),
+          )
+        ],
+      );
+
+  Widget buildAbout(UserProf user) => Container(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 48),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 24,
+              ),
+              Text('Sobre',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                user.sobreProf,
+                style: TextStyle(fontSize: 16, height: 1.4),
+              ),
+              Align(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 150),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(
+                              color: Colors.blue,
+                              width: 2,
+                            ))),
+                    onPressed: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
+                      child: Text(
+                        "Sair",
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+}
