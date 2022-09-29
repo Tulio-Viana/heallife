@@ -29,38 +29,51 @@ final MaskTextInputFormatter timeMaskFormatter =
 });
 
 class _PerfilPacienteState extends State<PerfilPaciente> {
+  late UserPaciente user;
+  TextEditingController _txtNomeMedController = TextEditingController();
+  TextEditingController _txtTimeController = TextEditingController();
+  TextEditingController _txtQuantidadeMedController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var user = UserPreferencesPaciente.getUser();
-    TextEditingController _txtNomeMedController = TextEditingController();
-    TextEditingController _txtTimeController = TextEditingController();
-    TextEditingController _txtQuantidadeMedController = TextEditingController();
-
     return Scaffold(
       appBar: buildAppBar(context),
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-              imagePath: user.imagePathPaciente,
-              onClicked: () async {
-                await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => EditProfilePagePaciente()));
-                setState(() {});
-              } //para editar a imagem vai ser aqui
-              ),
-          const SizedBox(
-            height: 24,
-          ),
-          buildNamePaciente(user),
-          const SizedBox(
-            height: 30,
-          ),
-          buildTratamentos(user, _txtTimeController, _txtNomeMedController,
-              _txtQuantidadeMedController, context),
-          buildObservacoes(user)
-        ],
-      ),
+      body: FutureBuilder<UserPaciente>(
+          future: UserPreferencesPaciente.getUser(),
+          builder: (context, snap) {
+            print(snap.data);
+            if (snap.data != null) {
+              user = snap.data!;
+
+              return ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  ProfileWidget(
+                      imagePath: user.imagePathPaciente,
+                      onClicked: () async {
+                        await Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => EditProfilePagePaciente()));
+                        setState(() {});
+                      } //para editar a imagem vai ser aqui
+                      ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  buildNamePaciente(user),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  buildTratamentos(
+                      user,
+                      _txtTimeController,
+                      _txtNomeMedController,
+                      _txtQuantidadeMedController,
+                      context),
+                  buildObservacoes(user)
+                ],
+              );
+            }
+            return CircularProgressIndicator();
+          }),
     );
   }
 }
@@ -77,7 +90,7 @@ Widget buildNamePaciente(UserPaciente user) => Column(
         Text(
           user.emailPaciente,
           style: TextStyle(color: Colors.grey),
-        )
+        ),
       ],
     );
 
@@ -188,7 +201,7 @@ Widget buildTratamentos(
 
 Widget buildObservacoes(UserPaciente user) => Container(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 48),
+        padding: EdgeInsets.symmetric(horizontal: 65),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -196,7 +209,7 @@ Widget buildObservacoes(UserPaciente user) => Container(
               height: 24,
             ),
             Text('Observações',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             SizedBox(
               height: 16,
             ),

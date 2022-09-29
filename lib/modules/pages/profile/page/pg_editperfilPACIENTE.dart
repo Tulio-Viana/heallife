@@ -26,13 +26,6 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
   late UserPaciente user;
 
   @override
-  void initState() {
-    super.initState();
-
-    user = UserPreferencesPaciente.getUser();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double largura = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -44,67 +37,79 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 32),
-        physics: BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-              imagePath: user.imagePathPaciente,
-              isEdit: true,
-              onClicked: () async {
-                final image =
-                    await ImagePicker().getImage(source: ImageSource.gallery);
+      body: FutureBuilder<UserPaciente>(
+          future: UserPreferencesPaciente.getUser(),
+          builder: (context, snap) {
+            if (snap.data != null) {
+              user = snap.data!;
+            }
 
-                if (image == null) return;
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              physics: BouncingScrollPhysics(),
+              children: [
+                ProfileWidget(
+                    imagePath: user.imagePathPaciente,
+                    isEdit: true,
+                    onClicked: () async {
+                      final image = await ImagePicker()
+                          .getImage(source: ImageSource.gallery);
 
-                final directory = await getApplicationDocumentsDirectory();
-                final name = basename(image.path);
-                final imageFile = File('${directory.path}/$name');
-                final newImage = await File(image.path).copy(imageFile.path);
+                      if (image == null) return;
 
-                setState(
-                    () => user = user.copy(imagePathPaciente: newImage.path));
-              }),
-          SizedBox(
-            height: 24,
-          ),
-          buildNamePaciente(user),
-          const SizedBox(
-            height: 44,
-          ),
-          TextFieldWidget(
-            label: 'Observações (tratamentos ou necessidades específicas)',
-            text: user.observacoesPaciente,
-            maxLines: 5,
-            onChanged: (about) => user = user.copy(observacoesPaciente: about),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          Container(
-              width: largura / 1.4,
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+                      final directory =
+                          await getApplicationDocumentsDirectory();
+                      final name = basename(image.path);
+                      final imageFile = File('${directory.path}/$name');
+                      final newImage =
+                          await File(image.path).copy(imageFile.path);
+
+                      setState(() =>
+                          user = user.copy(imagePathPaciente: newImage.path));
+                    }),
+                SizedBox(
+                  height: 24,
                 ),
-              ),
-              child: TextButton(
-                child: Text(
-                  'Salvar',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                  ),
+                buildNamePaciente(user),
+                const SizedBox(
+                  height: 44,
                 ),
-                onPressed: () {
-                  UserPreferencesPaciente.setUser(user);
-                  Navigator.of(context).pop();
-                },
-              ))
-        ],
-      ),
+                TextFieldWidget(
+                  label:
+                      'Observações (tratamentos ou necessidades específicas)',
+                  text: user.observacoesPaciente,
+                  maxLines: 5,
+                  onChanged: (about) =>
+                      user = user.copy(observacoesPaciente: about),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Container(
+                    width: largura / 1.4,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: TextButton(
+                      child: Text(
+                        'Salvar',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        UserPreferencesPaciente.setUser(user);
+                        Navigator.of(context).pop();
+                      },
+                    ))
+              ],
+            );
+          }),
     );
   }
 }

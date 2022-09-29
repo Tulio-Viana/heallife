@@ -18,31 +18,39 @@ class Perfil extends StatefulWidget {
 class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferencesProf.getUser();
+    UserProf user;
 
     return Scaffold(
       appBar: buildAppBar(context),
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-            imagePath: user.imagePathProf,
-            onClicked: () async {
-              await Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => EditProfilePage()));
-              setState(() {});
-            },
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          buildNameProf(user),
-          const SizedBox(
-            height: 30,
-          ),
-          buildAbout(user),
-        ],
-      ),
+      body: FutureBuilder<UserProf>(
+          future: UserPreferencesProf.getUser(),
+          builder: (context, snap) {
+            if (snap.data != null) {
+              user = snap.data!;
+              return ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  ProfileWidget(
+                    imagePath: user.imagePathProf,
+                    onClicked: () async {
+                      await Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => EditProfilePage()));
+                      setState(() {});
+                    },
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  buildNameProf(user),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  buildAbout(user),
+                ],
+              );
+            }
+            return CircularProgressIndicator();
+          }),
     );
   }
 }

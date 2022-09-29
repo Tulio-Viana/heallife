@@ -24,13 +24,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late UserProf user;
 
   @override
-  void initState() {
-    super.initState();
-
-    user = UserPreferencesProf.getUser();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double largura = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -42,66 +35,76 @@ class _EditProfilePageState extends State<EditProfilePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 32),
-        physics: BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-              imagePath: user.imagePathProf,
-              isEdit: true,
-              onClicked: () async {
-                final image =
-                    await ImagePicker().getImage(source: ImageSource.gallery);
+      body: FutureBuilder<UserProf>(
+          future: UserPreferencesProf.getUser(),
+          builder: (context, snap) {
+            if (snap.data != null) {
+              user = snap.data!;
+            }
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              physics: BouncingScrollPhysics(),
+              children: [
+                ProfileWidget(
+                    imagePath: user.imagePathProf,
+                    isEdit: true,
+                    onClicked: () async {
+                      final image = await ImagePicker()
+                          .getImage(source: ImageSource.gallery);
 
-                if (image == null) return;
+                      if (image == null) return;
 
-                final directory = await getApplicationDocumentsDirectory();
-                final name = basename(image.path);
-                final imageFile = File('${directory.path}/$name');
-                final newImage = await File(image.path).copy(imageFile.path);
+                      final directory =
+                          await getApplicationDocumentsDirectory();
+                      final name = basename(image.path);
+                      final imageFile = File('${directory.path}/$name');
+                      final newImage =
+                          await File(image.path).copy(imageFile.path);
 
-                setState(() => user = user.copy(imagePathProf: newImage.path));
-              }),
-          SizedBox(
-            height: 24,
-          ),
-          buildNameProf(user),
-          const SizedBox(
-            height: 44,
-          ),
-          TextFieldWidget(
-            label: 'Sobre',
-            text: user.sobreProf,
-            maxLines: 5,
-            onChanged: (about) => user = user.copy(sobreProf: about),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          Container(
-              width: largura / 1.4,
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+                      setState(
+                          () => user = user.copy(imagePathProf: newImage.path));
+                    }),
+                SizedBox(
+                  height: 24,
                 ),
-              ),
-              child: TextButton(
-                child: Text(
-                  'Salvar',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                  ),
+                buildNameProf(user),
+                const SizedBox(
+                  height: 44,
                 ),
-                onPressed: () {
-                  UserPreferencesProf.setUser(user);
-                  Navigator.of(context).pop();
-                },
-              ))
-        ],
-      ),
+                TextFieldWidget(
+                  label: 'Sobre',
+                  text: user.sobreProf,
+                  maxLines: 5,
+                  onChanged: (about) => user = user.copy(sobreProf: about),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Container(
+                    width: largura / 1.4,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: TextButton(
+                      child: Text(
+                        'Salvar',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        UserPreferencesProf.setUser(user);
+                        Navigator.of(context).pop();
+                      },
+                    ))
+              ],
+            );
+          }),
     );
   }
 }
