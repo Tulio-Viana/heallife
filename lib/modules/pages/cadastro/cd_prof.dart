@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:idosos/modules/pages/bottomnavigator/pg_principal.dart';
 import 'package:idosos/modules/pages/cadastro/cadastroServices.dart';
+import 'package:idosos/modules/pages/login/chegagemPage.dart';
 import 'package:mask/mask/mask.dart';
 import '../../../Functions/Login.functions.dart';
 import '../login/login.dart';
 import 'package:flutter/services.dart';
 import 'package:search_cep/search_cep.dart';
+
+import '../login/login_services.dart';
 
 FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -40,12 +43,12 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
   final TextEditingController _controllerEstadoProfissional =
       TextEditingController();
   String ErroCep = '';
-  bool loading = false;
+  bool isloading = false;
 
   main() async {
     try {
       setState(() {
-        loading = true;
+        isloading = true;
       });
       final viaCepSearchCep = ViaCepSearchCep();
       final infoCepJSON = await viaCepSearchCep.searchInfoByCep(
@@ -64,7 +67,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
         print(_controllerEstadoProfissional.text);
       }
       setState(() {
-        loading = false;
+        isloading = false;
       });
     } catch (erro) {
       print(erro.toString());
@@ -356,20 +359,15 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                             }
                           }
 
-                          PegarUsuario();
-
-                          print("Passo4");
-                          print(_controllerUsuarioProfissional.text.trim());
-                          print(_controllerEmailProfissional.text.trim());
-                          print(_controllerSenhaProfissional.text.trim());
-                          print(_controllerCelularProfissional.text.trim());
-                          print(_controllerCPFProfissional.text.trim());
-                          print(_controllerCORENProfissional.text.trim());
-                          print(_controllerCepProfissional.text.trim());
-
+                          login(
+                              _controllerEmailProfissional.text,
+                              _controllerSenhaProfissional.text,
+                              context,
+                              isloading);
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => PaginaPrincipal()));
+                                  builder: (context) => checagemPage()));
+                          PegarUsuario();
                         }
                       }
                     },

@@ -38,7 +38,7 @@ class _PerfilProfissionalState extends State<PerfilProfissional> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
                   child: Text(
-                    "Sir",
+                    "Sair",
                     style: TextStyle(fontSize: 20),
                   ),
                 ),

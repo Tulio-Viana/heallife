@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:idosos/modules/Perfis_e_Classes/paciente.dart';
 import 'package:idosos/modules/pages/bottomnavigator/pg_principal.dart';
 import 'package:idosos/modules/pages/cadastro/cadastroServices.dart';
+import 'package:idosos/modules/pages/login/chegagemPage.dart';
 import 'package:idosos/modules/pages/login/login_services.dart';
 import 'package:mask/mask/mask.dart';
 import '../../../Functions/Login.functions.dart';
@@ -43,6 +44,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
   final TextEditingController _controllerEstadoPaciente =
       TextEditingController();
   String ErroCep = '';
+  bool isloading = false;
   void main() async {
     final viaCepSearchCep = ViaCepSearchCep();
     final infoCepJSON =
@@ -317,18 +319,15 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                             }
                           }
 
-                          PegarUsuario();
-
-                          print(_controllerUsuarioPaciente.text.trim());
-                          print(_controllerEmailPaciente.text.trim());
-                          print(_controllerSenhaPaciente.text.trim());
-                          print(_controllerCelularPaciente.text.trim());
-                          print(_controllerCPFPaciente.text.trim());
-                          print(_controllerCepPaciente.text.trim());
-
+                          login(
+                              _controllerEmailPaciente.text,
+                              _controllerSenhaPaciente.text,
+                              context,
+                              isloading);
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => PaginaPrincipal()));
+                                  builder: (context) => checagemPage()));
+                          PegarUsuario();
                         }
                       }
                     },
