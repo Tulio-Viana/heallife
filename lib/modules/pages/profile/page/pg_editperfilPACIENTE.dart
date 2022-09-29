@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:idosos/modules/pages/bottomnavigator/homepagePROF.dart';
 import 'package:idosos/modules/pages/bottomnavigator/pg_principal.dart';
+import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
@@ -22,13 +23,13 @@ class EditProfilePagePaciente extends StatefulWidget {
 }
 
 class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
-  late User user;
+  late UserPaciente user;
 
   @override
   void initState() {
     super.initState();
 
-    user = UserPreferences.getUser();
+    user = UserPreferencesPaciente.getUser();
   }
 
   @override
@@ -48,7 +49,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-              imagePath: user.imagePath,
+              imagePath: user.imagePathPaciente,
               isEdit: true,
               onClicked: () async {
                 final image =
@@ -61,20 +62,21 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                 final imageFile = File('${directory.path}/$name');
                 final newImage = await File(image.path).copy(imageFile.path);
 
-                setState(() => user = user.copy(imagePath: newImage.path));
+                setState(
+                    () => user = user.copy(imagePathPaciente: newImage.path));
               }),
           SizedBox(
             height: 24,
           ),
-          buildName(user),
+          buildNamePaciente(user),
           const SizedBox(
             height: 44,
           ),
           TextFieldWidget(
             label: 'Observações (tratamentos ou necessidades específicas)',
-            text: user.about,
+            text: user.observacoesPaciente,
             maxLines: 5,
-            onChanged: (about) => user = user.copy(about: about),
+            onChanged: (about) => user = user.copy(observacoesPaciente: about),
           ),
           const SizedBox(
             height: 40,
@@ -97,7 +99,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                   ),
                 ),
                 onPressed: () {
-                  UserPreferences.setUser(user);
+                  UserPreferencesPaciente.setUser(user);
                   Navigator.of(context).pop();
                 },
               ))

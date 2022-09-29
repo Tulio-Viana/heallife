@@ -12,7 +12,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await UserPreferences.init();
+  await UserPreferencesPaciente.init();
+  await UserPreferencesProf.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }

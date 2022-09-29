@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
@@ -30,7 +31,7 @@ final MaskTextInputFormatter timeMaskFormatter =
 class _PerfilPacienteState extends State<PerfilPaciente> {
   @override
   Widget build(BuildContext context) {
-    var user = UserPreferences.getUser();
+    var user = UserPreferencesPaciente.getUser();
     TextEditingController _txtNomeMedController = TextEditingController();
     TextEditingController _txtTimeController = TextEditingController();
     TextEditingController _txtQuantidadeMedController = TextEditingController();
@@ -41,54 +42,47 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-              imagePath: user.imagePath,
+              imagePath: user.imagePathPaciente,
               onClicked: () async {
-                final image =
-                    await ImagePicker().getImage(source: ImageSource.gallery);
-
-                if (image == null) return;
-
-                final directory = await getApplicationDocumentsDirectory();
-                final name = basename(image.path);
-                final imageFile = File('${directory.path}/$name');
-                final newImage = await File(image.path).copy(imageFile.path);
-
-                setState(() => user = user.copy(imagePath: newImage.path));
+                await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EditProfilePagePaciente()));
+                setState(() {});
               } //para editar a imagem vai ser aqui
               ),
           const SizedBox(
             height: 24,
           ),
-          buildName(user),
+          buildNamePaciente(user),
           const SizedBox(
             height: 30,
           ),
           buildTratamentos(user, _txtTimeController, _txtNomeMedController,
               _txtQuantidadeMedController, context),
+          buildObservacoes(user)
         ],
       ),
     );
   }
 }
 
-Widget buildName(User user) => Column(
+Widget buildNamePaciente(UserPaciente user) => Column(
       children: [
         Text(
-          user.name,
+          user.namePaciente,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(
           height: 4,
         ),
         Text(
-          user.email,
+          user.emailPaciente,
           style: TextStyle(color: Colors.grey),
         )
       ],
     );
 
 Widget buildTratamentos(
-        User user,
+        UserPaciente user,
         TextEditingController _txtTimeController,
         TextEditingController _txtNomeMedController,
         TextEditingController _txtQuantidadeMedController,
@@ -191,3 +185,48 @@ Widget buildTratamentos(
                 ),
               ),
             ])));
+
+Widget buildObservacoes(UserPaciente user) => Container(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 48),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 24,
+            ),
+            Text('Observações',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              user.observacoesPaciente,
+              style: TextStyle(fontSize: 16, height: 1.4),
+            ),
+            Align(
+              child: Padding(
+                padding: EdgeInsets.only(top: 150),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(
+                            color: Colors.blue,
+                            width: 2,
+                          ))),
+                  onPressed: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
+                    child: Text(
+                      "Sair",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
