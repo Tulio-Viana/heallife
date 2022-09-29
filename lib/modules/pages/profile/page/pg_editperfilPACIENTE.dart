@@ -1,12 +1,7 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:idosos/modules/pages/bottomnavigator/homepagePROF.dart';
-import 'package:idosos/modules/pages/bottomnavigator/pg_principal.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
-import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
-import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
 import 'package:idosos/modules/pages/profile/widget/profile_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,6 +19,7 @@ class EditProfilePagePaciente extends StatefulWidget {
 
 class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
   late UserPaciente user;
+  var userPrefPac = UserPreferencesPaciente();
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +27,22 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: FutureBuilder<UserPaciente>(
-          future: UserPreferencesPaciente.getUser(),
+          future: userPrefPac.getUser(),
           builder: (context, snap) {
             if (snap.data != null) {
               user = snap.data!;
             }
 
             return ListView(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              physics: const BouncingScrollPhysics(),
               children: [
                 ProfileWidget(
                     imagePath: user.imagePathPaciente,
@@ -67,7 +63,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                       setState(() =>
                           user = user.copy(imagePathPaciente: newImage.path));
                     }),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 buildNamePaciente(user),
@@ -88,14 +84,14 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                 Container(
                     width: largura / 1.4,
                     height: 45,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.all(
                         Radius.circular(20),
                       ),
                     ),
                     child: TextButton(
-                      child: Text(
+                      child: const Text(
                         'Salvar',
                         style: TextStyle(
                           fontSize: 25,

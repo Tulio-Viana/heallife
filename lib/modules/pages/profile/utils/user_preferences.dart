@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,24 +54,30 @@ class UserPreferencesPaciente {
     await _preferencesPaciente.setString(_keyUser, json);
   }
 
-  static Future<UserPaciente> getUser() async {
+  Future<UserPaciente> getUser() async {
     final json = _preferencesPaciente.getString(_keyUser);
     var pegardobancopaciente = await FirebaseFirestore.instance
         .collection('paciente')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-    if (FirebaseAuth.instance.currentUser != null) {
-      myUser = UserPaciente(
+    print(pegardobancopaciente.data());
+    if (FirebaseAuth.instance.currentUser != null &&
+        pegardobancopaciente.data() != null) {
+      print(pegardobancopaciente.data());
+
+      var newUser = UserPaciente(
         imagePathPaciente:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-        namePaciente: pegardobancopaciente.data()?['nome'],
-        emailPaciente: pegardobancopaciente.data()?['email'],
+        namePaciente: pegardobancopaciente.data()!['nome'],
+        emailPaciente: pegardobancopaciente.data()!['email'],
         observacoesPaciente: 'Suas informações (Clique na foto para editar)',
-        numeroCllPaciente: pegardobancopaciente.data()?['celular'],
-        estadoPaciente: pegardobancopaciente.data()?['estado'],
-        cidadePaciente: pegardobancopaciente.data()?['cidade'],
+        numeroCllPaciente: pegardobancopaciente.data()!['celular'],
+        estadoPaciente: pegardobancopaciente.data()!['estado'],
+        cidadePaciente: pegardobancopaciente.data()!['cidade'],
       );
+      return newUser;
     }
+
     return myUser;
   }
 }

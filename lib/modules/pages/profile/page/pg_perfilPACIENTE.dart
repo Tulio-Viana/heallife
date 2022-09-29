@@ -1,18 +1,11 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
-import 'package:idosos/modules/pages/profile/page/pg_editperfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:path_provider/path_provider.dart';
 import '../model/user.dart';
 import '../widget/profile_widget.dart';
-import 'package:path/path.dart';
 
 class PerfilPaciente extends StatefulWidget {
   const PerfilPaciente({Key? key}) : super(key: key);
@@ -29,52 +22,49 @@ final MaskTextInputFormatter timeMaskFormatter =
 });
 
 class _PerfilPacienteState extends State<PerfilPaciente> {
-  late UserPaciente user;
-  TextEditingController _txtNomeMedController = TextEditingController();
-  TextEditingController _txtTimeController = TextEditingController();
-  TextEditingController _txtQuantidadeMedController = TextEditingController();
+  late UserPaciente user = const UserPaciente(
+    imagePathPaciente:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+    namePaciente: "Tulio",
+    emailPaciente: "test@test.com",
+    observacoesPaciente: 'Suas informações (Clique na foto para editar)',
+    numeroCllPaciente: "(37)99999-9999",
+    estadoPaciente: "MG",
+    cidadePaciente: "Divinópolis",
+  );
+  var userPrefPac = UserPreferencesPaciente();
+  final TextEditingController _txtNomeMedController = TextEditingController();
+  final TextEditingController _txtTimeController = TextEditingController();
+  final TextEditingController _txtQuantidadeMedController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
-      body: FutureBuilder<UserPaciente>(
-          future: UserPreferencesPaciente.getUser(),
-          builder: (context, snap) {
-            print(snap.data);
-            if (snap.data != null) {
-              user = snap.data!;
-
-              return ListView(
-                physics: BouncingScrollPhysics(),
-                children: [
-                  ProfileWidget(
-                      imagePath: user.imagePathPaciente,
-                      onClicked: () async {
-                        await Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => EditProfilePagePaciente()));
-                        setState(() {});
-                      } //para editar a imagem vai ser aqui
-                      ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  buildNamePaciente(user),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  buildTratamentos(
-                      user,
-                      _txtTimeController,
-                      _txtNomeMedController,
-                      _txtQuantidadeMedController,
-                      context),
-                  buildObservacoes(user)
-                ],
-              );
-            }
-            return CircularProgressIndicator();
-          }),
-    );
+        appBar: buildAppBar(context),
+        body: ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
+            ProfileWidget(
+                imagePath: user.imagePathPaciente,
+                onClicked: () async {
+                  await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const EditProfilePagePaciente()));
+                  setState(() {});
+                } //para editar a imagem vai ser aqui
+                ),
+            const SizedBox(
+              height: 24,
+            ),
+            buildNamePaciente(user),
+            const SizedBox(
+              height: 30,
+            ),
+            buildTratamentos(user, _txtTimeController, _txtNomeMedController,
+                _txtQuantidadeMedController, context),
+            buildObservacoes(user)
+          ],
+        ));
   }
 }
 
@@ -82,14 +72,14 @@ Widget buildNamePaciente(UserPaciente user) => Column(
       children: [
         Text(
           user.namePaciente,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(
           height: 4,
         ),
         Text(
           user.emailPaciente,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
         ),
       ],
     );
@@ -102,14 +92,14 @@ Widget buildTratamentos(
         BuildContext context) =>
     Container(
         child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 48),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: ExpansionTile(
                       title: Text('Medicamentos Cadastrados:'),
                       children: [
@@ -121,15 +111,16 @@ Widget buildTratamentos(
                           color: Colors.black,
                         ),
                       ])),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: ExpansionTile(
-                  title: Text('Clique aqui para cadastrar seu medicamento!'),
+                  title:
+                      const Text('Clique aqui para cadastrar seu medicamento!'),
                   children: [
-                    Divider(
+                    const Divider(
                       indent: 2,
                       endIndent: 2,
                       height: 5,
@@ -140,7 +131,7 @@ Widget buildTratamentos(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
                         controller: _txtNomeMedController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Nome do medicamento',
                             hintStyle: TextStyle(color: Colors.black)),
@@ -154,7 +145,7 @@ Widget buildTratamentos(
                         inputFormatters: <TextInputFormatter>[
                           timeMaskFormatter
                         ],
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Horário de ingestão (00:00)',
                             hintStyle: TextStyle(color: Colors.black)),
@@ -168,7 +159,7 @@ Widget buildTratamentos(
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Quantidade ingerida',
                             hintStyle: TextStyle(color: Colors.black)),
@@ -183,16 +174,16 @@ Widget buildTratamentos(
                             _txtTimeController.text = "";
 
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                 duration: Duration(milliseconds: 1500),
-                                content: const Text(
+                                content: Text(
                                   'Remédio cadastrado com sucesso!',
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                             );
                           },
-                          child: Text('Cadastrar remédio')),
+                          child: const Text('Cadastrar remédio')),
                     )
                   ],
                 ),
@@ -201,36 +192,36 @@ Widget buildTratamentos(
 
 Widget buildObservacoes(UserPaciente user) => Container(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 65),
+        padding: const EdgeInsets.symmetric(horizontal: 65),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
-            Text('Observações',
+            const Text('Observações',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Text(
               user.observacoesPaciente,
-              style: TextStyle(fontSize: 16, height: 1.4),
+              style: const TextStyle(fontSize: 16, height: 1.4),
             ),
             Align(
               child: Padding(
-                padding: EdgeInsets.only(top: 150),
+                padding: const EdgeInsets.only(top: 150),
                 child: TextButton(
                   style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
+                          side: const BorderSide(
                             color: Colors.blue,
                             width: 2,
                           ))),
                   onPressed: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(40, 2, 40, 2),
                     child: Text(
                       "Sair",
                       style: TextStyle(fontSize: 20),
