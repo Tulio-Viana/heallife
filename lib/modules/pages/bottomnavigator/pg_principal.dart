@@ -3,6 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:idosos/modules/pages/bottomnavigator/homepagePACIENTE.dart';
 import 'package:idosos/modules/pages/bottomnavigator/homepagePROF.dart';
+import 'package:idosos/modules/pages/bottomnavigator/notificacoesPaciente.dart';
+import 'package:idosos/modules/pages/bottomnavigator/notificacoesProfissional.dart';
 import 'package:idosos/modules/pages/profile/page/perfilProfissional.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
@@ -16,7 +18,7 @@ class PaginaPrincipal extends StatefulWidget {
 }
 
 class _PaginaPrincipalState extends State<PaginaPrincipal> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -32,8 +34,11 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
     // TODO: implement initState
     super.initState();
     _widgetOptions = <Widget>[
-      const Ranking(),
       Cuidador ? const HomePageProf() : const homepagePaciente(),
+      const Ranking(),
+      Cuidador
+          ? const notificacoesProfissional()
+          : const notificacoesPaciente(),
       Cuidador ? const Perfil() : const PerfilPaciente()
     ];
   }
@@ -47,22 +52,37 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
         backgroundColor: Theme.of(context).backgroundColor,
         body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
         bottomNavigationBar: BottomNavigationBar(
+          showUnselectedLabels: true,
+          unselectedLabelStyle: TextStyle(color: Colors.black),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.leaderboard_rounded),
-              label: 'Ranking',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(
+                Icons.home,
+              ),
               label: 'Início',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Icon(
+                Icons.leaderboard_rounded,
+              ),
+              label: 'Ranking',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.notifications_sharp,
+              ),
+              label: 'Notificações',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
               label: 'Perfil',
             ),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.blue[800],
+          unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
         ));
   }

@@ -59,9 +59,6 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                       final imageFile = File('${directory.path}/$name');
                       final newImage =
                           await File(image.path).copy(imageFile.path);
-
-                      setState(() =>
-                          user = user.copy(imagePathPaciente: newImage.path));
                     }),
                 const SizedBox(
                   height: 24,
@@ -71,13 +68,11 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                   height: 44,
                 ),
                 TextFieldWidget(
-                  label:
-                      'Observações (tratamentos ou necessidades específicas)',
-                  text: user.observacoesPaciente,
-                  maxLines: 5,
-                  onChanged: (about) =>
-                      user = user.copy(observacoesPaciente: about),
-                ),
+                    label:
+                        'Observações (tratamentos ou necessidades específicas)',
+                    text: user.observacoesPaciente,
+                    maxLines: 5,
+                    onChanged: (obs) {}),
                 const SizedBox(
                   height: 40,
                 ),
@@ -99,7 +94,6 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                         ),
                       ),
                       onPressed: () {
-                        UserPreferencesPaciente.setUser(user);
                         Navigator.of(context).pop();
                       },
                     ))

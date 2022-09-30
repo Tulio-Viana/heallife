@@ -51,8 +51,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 final name = basename(image.path);
                 final imageFile = File('${directory.path}/$name');
                 final newImage = await File(image.path).copy(imageFile.path);
-
-                setState(() => user = user.copy(imagePathProf: newImage.path));
               }),
           SizedBox(
             height: 24,
@@ -64,7 +62,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             label: 'Sobre',
             text: user.sobreProf,
             maxLines: 5,
-            onChanged: (about) => user = user.copy(sobreProf: about),
+            onChanged: (sobre) {},
           ),
           const SizedBox(
             height: 40,
@@ -87,7 +85,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 onPressed: () {
-                  UserPreferencesProf.setUser(user);
                   Navigator.of(context).pop();
                 },
               ))

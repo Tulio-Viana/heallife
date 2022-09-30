@@ -12,12 +12,6 @@ class UserPreferencesProf {
   static Future init() async =>
       _preferencesProf = await SharedPreferences.getInstance();
 
-  static Future setUser(UserProf user) async {
-    final json = jsonEncode(user.toJson());
-
-    await _preferencesProf.setString(_keyUser, json);
-  }
-
   static Future<UserProf> getUser() async {
     final json = _preferencesProf.getString(_keyUser);
     if (FirebaseAuth.instance.currentUser != null) {
@@ -36,7 +30,7 @@ class UserPreferencesProf {
         cidadeProf: pegardobanco.data()?['cidade'],
       );
     }
-    return json == null ? myUser : UserProf.fromJson(jsonDecode(json));
+    return myUser;
   }
 }
 
@@ -47,12 +41,6 @@ class UserPreferencesPaciente {
 
   static Future init() async =>
       _preferencesPaciente = await SharedPreferences.getInstance();
-
-  static Future setUser(UserPaciente user) async {
-    final json = jsonEncode(user.toJson());
-
-    await _preferencesPaciente.setString(_keyUser, json);
-  }
 
   Future<UserPaciente> getUser() async {
     final json = _preferencesPaciente.getString(_keyUser);

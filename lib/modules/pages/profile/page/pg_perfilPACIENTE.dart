@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
@@ -14,15 +15,8 @@ class PerfilPaciente extends StatefulWidget {
   State<PerfilPaciente> createState() => _PerfilPacienteState();
 }
 
-final MaskTextInputFormatter timeMaskFormatter =
-    MaskTextInputFormatter(mask: '!#:*#', filter: {
-  "#": RegExp(r'[0-9]'),
-  "!": RegExp(r'[0-2]'),
-  "*": RegExp(r'[0-5]'),
-});
-
 class _PerfilPacienteState extends State<PerfilPaciente> {
-  late UserPaciente user = const UserPaciente(
+  late UserPaciente usuarioPaciente = UserPaciente(
     imagePathPaciente:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
     namePaciente: "Tulio",
@@ -46,7 +40,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-                imagePath: user.imagePathPaciente,
+                imagePath: usuarioPaciente.imagePathPaciente,
                 onClicked: () async {
                   await Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const EditProfilePagePaciente()));
@@ -56,36 +50,33 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
             const SizedBox(
               height: 24,
             ),
-            buildNamePaciente(user),
-            const SizedBox(
-              height: 30,
-            ),
-            buildTratamentos(user, _txtTimeController, _txtNomeMedController,
+            buildNamePaciente(usuarioPaciente),
+            buildCllCidade(usuarioPaciente),
+            buildTratamentos(_txtTimeController, _txtNomeMedController,
                 _txtQuantidadeMedController, context),
-            buildObservacoes(user)
+            buildObservacoes(usuarioPaciente)
           ],
         ));
   }
 }
 
-Widget buildNamePaciente(UserPaciente user) => Column(
+Widget buildNamePaciente(UserPaciente usuarioPaciente) => Column(
       children: [
         Text(
-          user.namePaciente,
+          usuarioPaciente.namePaciente,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(
           height: 4,
         ),
         Text(
-          user.emailPaciente,
+          usuarioPaciente.emailPaciente,
           style: const TextStyle(color: Colors.grey),
         ),
       ],
     );
 
 Widget buildTratamentos(
-        UserPaciente user,
         TextEditingController _txtTimeController,
         TextEditingController _txtNomeMedController,
         TextEditingController _txtQuantidadeMedController,
@@ -101,7 +92,7 @@ Widget buildTratamentos(
               const Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: ExpansionTile(
-                      title: Text('Medicamentos Cadastrados:'),
+                      title: Text('Medicamentos Cadastrados: '),
                       children: [
                         Divider(
                           indent: 2,
@@ -143,7 +134,8 @@ Widget buildTratamentos(
                         controller: _txtTimeController,
                         keyboardType: TextInputType.datetime,
                         inputFormatters: <TextInputFormatter>[
-                          timeMaskFormatter
+                          FilteringTextInputFormatter.digitsOnly,
+                          HoraInputFormatter()
                         ],
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -190,7 +182,25 @@ Widget buildTratamentos(
               ),
             ])));
 
-Widget buildObservacoes(UserPaciente user) => Container(
+Widget buildCllCidade(UserPaciente usuarioPaciente) => Container(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 62),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Celular para contato:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            )
+          ],
+        ),
+      ),
+    );
+
+Widget buildObservacoes(UserPaciente usuarioPaciente) => Container(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 65),
         child: Column(
@@ -205,7 +215,7 @@ Widget buildObservacoes(UserPaciente user) => Container(
               height: 16,
             ),
             Text(
-              user.observacoesPaciente,
+              usuarioPaciente.observacoesPaciente,
               style: const TextStyle(fontSize: 16, height: 1.4),
             ),
             Align(

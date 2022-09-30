@@ -16,7 +16,7 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
-  late UserProf user = const UserProf(
+  late UserProf userProfissional = UserProf(
     imagePathProf:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
     nameProf: "Tulio",
@@ -35,7 +35,7 @@ class _PerfilState extends State<Perfil> {
           physics: BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: user.imagePathProf,
+              imagePath: userProfissional.imagePathProf,
               onClicked: () async {
                 await Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EditProfilePage()));
@@ -45,11 +45,11 @@ class _PerfilState extends State<Perfil> {
             const SizedBox(
               height: 24,
             ),
-            buildNameProf(user),
+            buildNameProf(userProfissional),
             const SizedBox(
               height: 30,
             ),
-            buildAbout(user),
+            buildAbout(userProfissional),
           ],
         ));
   }
@@ -57,14 +57,14 @@ class _PerfilState extends State<Perfil> {
   Widget buildNameProf(UserProf user) => Column(
         children: [
           Text(
-            user.nameProf,
+            userProfissional.nameProf,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(
             height: 4,
           ),
           Text(
-            user.emailProf,
+            userProfissional.emailProf,
             style: TextStyle(color: Colors.grey),
           )
         ],
@@ -85,7 +85,7 @@ class _PerfilState extends State<Perfil> {
                 height: 16,
               ),
               Text(
-                user.sobreProf,
+                userProfissional.sobreProf,
                 style: TextStyle(fontSize: 16, height: 1.4),
               ),
               Align(
