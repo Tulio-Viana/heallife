@@ -7,6 +7,7 @@ import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../model/user.dart';
 import '../widget/profile_widget.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class PerfilPaciente extends StatefulWidget {
   const PerfilPaciente({Key? key}) : super(key: key);
@@ -83,11 +84,11 @@ Widget buildTratamentos(
         BuildContext context) =>
     Container(
         child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const SizedBox(
-                height: 24,
+                height: 16,
               ),
               const Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -184,16 +185,19 @@ Widget buildTratamentos(
 
 Widget buildCllCidade(UserPaciente usuarioPaciente) => Container(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 62),
+        padding: const EdgeInsets.symmetric(horizontal: 38),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Celular para contato:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            AutoSizeText(
+              'Celular: ${usuarioPaciente.numeroCllPaciente}      Cidade: ${usuarioPaciente.cidadePaciente} - ${usuarioPaciente.estadoPaciente}',
+              maxLines: 1,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             )
           ],
         ),
@@ -202,12 +206,12 @@ Widget buildCllCidade(UserPaciente usuarioPaciente) => Container(
 
 Widget buildObservacoes(UserPaciente usuarioPaciente) => Container(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 65),
+        padding: const EdgeInsets.symmetric(horizontal: 38),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 24,
+              height: 32,
             ),
             const Text('Observações',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),

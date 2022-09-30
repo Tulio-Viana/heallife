@@ -45,6 +45,7 @@ dependencies:
   image_picker: ^0.8.5+3
   search_cep: ^4.0.1
   motion_toast: ^2.4.3
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

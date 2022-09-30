@@ -7,6 +7,7 @@ import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
 import '../model/user.dart';
 import '../widget/profile_widget.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({Key? key}) : super(key: key);
@@ -16,15 +17,15 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
-  late UserProf userProfissional = UserProf(
+  late UserProf uuarioProfissional = UserProf(
     imagePathProf:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-    nameProf: "Tulio",
+    nameProf: "Andre",
     emailProf: "test@test.com",
     sobreProf: 'Suas informações (Clique na foto para editar)',
     numeroCllProf: "(37)99999-9999",
-    estadoProf: "MG",
-    cidadeProf: "Divinópolis",
+    estadoProf: "GO",
+    cidadeProf: "Goiânia",
   );
   var userPrefPac = UserPreferencesPaciente();
   @override
@@ -35,7 +36,7 @@ class _PerfilState extends State<Perfil> {
           physics: BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: userProfissional.imagePathProf,
+              imagePath: uuarioProfissional.imagePathProf,
               onClicked: () async {
                 await Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EditProfilePage()));
@@ -45,39 +46,58 @@ class _PerfilState extends State<Perfil> {
             const SizedBox(
               height: 24,
             ),
-            buildNameProf(userProfissional),
-            const SizedBox(
-              height: 30,
-            ),
-            buildAbout(userProfissional),
+            buildNameProf(uuarioProfissional),
+            buildCllCidade(uuarioProfissional),
+            buildAbout(uuarioProfissional),
           ],
         ));
   }
 
-  Widget buildNameProf(UserProf user) => Column(
+  Widget buildNameProf(UserProf usuarioProfissional) => Column(
         children: [
           Text(
-            userProfissional.nameProf,
+            uuarioProfissional.nameProf,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(
             height: 4,
           ),
           Text(
-            userProfissional.emailProf,
+            uuarioProfissional.emailProf,
             style: TextStyle(color: Colors.grey),
           )
         ],
       );
 
-  Widget buildAbout(UserProf user) => Container(
+  Widget buildCllCidade(UserProf usuarioProfissional) => Container(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 48),
+          padding: const EdgeInsets.symmetric(horizontal: 38),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              AutoSizeText(
+                'Celular: ${usuarioProfissional.numeroCllProf}      Cidade: ${usuarioProfissional.cidadeProf} - ${usuarioProfissional.estadoProf}',
+                maxLines: 1,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+
+  Widget buildAbout(UserProf usuarioProfissional) => Container(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 38),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 24,
+                height: 30,
               ),
               Text('Sobre',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
@@ -85,7 +105,7 @@ class _PerfilState extends State<Perfil> {
                 height: 16,
               ),
               Text(
-                userProfissional.sobreProf,
+                uuarioProfissional.sobreProf,
                 style: TextStyle(fontSize: 16, height: 1.4),
               ),
               Align(
