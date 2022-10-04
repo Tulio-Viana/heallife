@@ -33,5 +33,4 @@ criarUsuario(String emailAddress, String password, context) async {
 
 SalvarInfosUsers(String id, Map<String, dynamic> dados, String tipo) {
   final alovelaceDocumentRef = db.collection(tipo).doc(id).set(dados);
-  var oi = db.collection(tipo).doc(id).get();
 }

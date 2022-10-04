@@ -342,18 +342,17 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                           dados["cep"] = _controllerCepProfissional.text;
                           dados["cidade"] = _controllerCidadeProfissional.text;
                           dados["estado"] = _controllerEstadoProfissional.text;
+                          dados["email"] = _controllerEmailProfissional.text;
 
                           print('Informacoes: \n$dados');
 
                           PegarUsuario() async {
                             User? usuario = await _firebaseAuth.currentUser;
                             String id;
-                            print('passo 1');
+
                             if (usuario != null) {
-                              print('passo 2');
                               id = usuario.uid;
                               if (id != null) {
-                                print('passo 3');
                                 SalvarInfosUsers(id, dados, "profissional");
                               }
                             }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:idosos/modules/pages/login/login_services.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPROF.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
@@ -215,7 +216,9 @@ Widget buildObservacoes(UserPaciente user) => Container(
                             color: Colors.blue,
                             width: 2,
                           ))),
-                  onPressed: () {},
+                  onPressed: () {
+                    deslogar(context);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
                     child: Text(

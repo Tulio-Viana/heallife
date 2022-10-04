@@ -302,6 +302,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                           dados["cidade"] = _controllerCidadePaciente.text;
                           dados["estado"] = _controllerEstadoPaciente.text;
                           dados["Idade"] = _controllerIdadePaciente.text;
+                          dados["Email"] = _controllerEmailPaciente.text;
 
                           print('Informacoes: \n$dados');
 
@@ -317,6 +318,14 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                                 SalvarInfosUsers(id, dados, "paciente");
                               }
                             }
+                            User? teste = await _firebaseAuth.currentUser;
+                            String idi = teste!.uid;
+                            print("Id do mano: $idi");
+
+                            final pacienteref =
+                                db.collection("paciente").doc(idi);
+                            var docsref = pacienteref;
+                            print("Infos do mano: $docsref");
                           }
 
                           login(

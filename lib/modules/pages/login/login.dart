@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:idosos/modules/pages/cadastro/cadastroServices.dart';
 import 'package:idosos/modules/pages/cadastro/cd_prof.dart';
 import 'package:idosos/modules/pages/cadastro/selec_cd.dart';
+import 'package:idosos/modules/pages/profile/page/userServices.dart';
 import '../../../Functions/Login.functions.dart';
 import '../bottomnavigator/pg_principal.dart';
 import '../cadastro/cd_paciente.dart';
