@@ -5,6 +5,7 @@ import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:search_cep/search_cep.dart';
 import '../model/user.dart';
 import '../widget/profile_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -21,6 +22,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
       imagePathPaciente:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
       namePaciente: "Tulio",
+      idadePaciente: '17',
       emailPaciente: "test@test.com",
       observacoesPaciente:
           'Observações específicas sobre o tratamento (Clique na foto para editar)',
@@ -53,10 +55,10 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
               height: 24,
             ),
             buildNamePaciente(usuarioPaciente),
-            buildCllCidade(usuarioPaciente),
+            buildCidade(usuarioPaciente),
             buildTratamentos(_txtTimeController, _txtNomeMedController,
                 _txtQuantidadeMedController, context),
-            buildObservacoes(usuarioPaciente)
+            buildObservacoes(usuarioPaciente),
           ],
         ));
   }
@@ -65,7 +67,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
 Widget buildNamePaciente(UserPaciente usuarioPaciente) => Column(
       children: [
         Text(
-          usuarioPaciente.namePaciente,
+          '${usuarioPaciente.namePaciente} - ${usuarioPaciente.idadePaciente} anos',
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(
@@ -184,14 +186,14 @@ Widget buildTratamentos(
               ),
             ])));
 
-Widget buildCllCidade(UserPaciente usuarioPaciente) => Container(
+Widget buildCidade(UserPaciente usuarioPaciente) => Container(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 38),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 20,
+              height: 18,
             ),
             AutoSizeText(
               'Celular: ${usuarioPaciente.numeroCllPaciente}      Cidade: ${usuarioPaciente.cidadePaciente} - ${usuarioPaciente.estadoPaciente}',
@@ -223,28 +225,6 @@ Widget buildObservacoes(UserPaciente usuarioPaciente) => Container(
               usuarioPaciente.observacoesPaciente,
               style: const TextStyle(fontSize: 16, height: 1.4),
             ),
-            Align(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 150),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: const BorderSide(
-                            color: Colors.blue,
-                            width: 2,
-                          ))),
-                  onPressed: () {},
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(40, 2, 40, 2),
-                    child: Text(
-                      "Sair",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),

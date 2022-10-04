@@ -1,31 +1,39 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final int maxLines;
   final String label;
   final String text;
-  final ValueChanged<String> onChanged;
+  final List<TextInputFormatter>? Inputformatter;
+  Function(String)? onChanged;
 
-  const TextFieldWidget({
-    Key? key,
-    this.maxLines = 1,
-    required this.label,
-    required this.text,
-    required this.onChanged,
-  }) : super(key: key);
+  String? Function(String?)? validator;
+  TextEditingController? controller;
+
+  TextFieldWidget(
+      {Key? key,
+      this.maxLines = 1,
+      required this.label,
+      required this.text,
+      this.validator,
+      this.controller,
+      this.Inputformatter,
+      this.onChanged})
+      : super(key: key);
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
-  late final TextEditingController controller;
-
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    controller = TextEditingController(text: widget.text);
+    widget.controller?.text = widget.text;
   }
 
   @override
@@ -40,15 +48,17 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         const SizedBox(
           height: 8,
         ),
-        TextField(
-          controller: controller,
+        TextFormField(
+          controller: widget.controller,
+          validator: widget.validator,
+          inputFormatters: widget.Inputformatter,
+          onChanged: widget.onChanged,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
           maxLines: widget.maxLines,
-          onChanged: widget.onChanged,
         )
       ],
     );

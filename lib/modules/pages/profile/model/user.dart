@@ -31,6 +31,7 @@ class UserPaciente {
   String estadoPaciente;
   String cidadePaciente;
   String CepPaciente;
+  String idadePaciente;
 
   UserPaciente(
       {required this.imagePathPaciente,
@@ -40,5 +41,6 @@ class UserPaciente {
       required this.numeroCllPaciente,
       required this.estadoPaciente,
       required this.cidadePaciente,
-      required this.CepPaciente});
+      required this.CepPaciente,
+      required this.idadePaciente});
 }

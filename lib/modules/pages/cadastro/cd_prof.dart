@@ -136,6 +136,7 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                     ),
                     TextFormField(
                       validator: (value) => Mask.validations.cpf(value),
+                      keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         CpfInputFormatter(),
