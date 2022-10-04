@@ -18,15 +18,16 @@ class PerfilPaciente extends StatefulWidget {
 
 class _PerfilPacienteState extends State<PerfilPaciente> {
   late UserPaciente usuarioPaciente = UserPaciente(
-    imagePathPaciente:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-    namePaciente: "Tulio",
-    emailPaciente: "test@test.com",
-    observacoesPaciente: 'Suas informações (Clique na foto para editar)',
-    numeroCllPaciente: "(37)99999-9999",
-    estadoPaciente: "MG",
-    cidadePaciente: "Divinópolis",
-  );
+      imagePathPaciente:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+      namePaciente: "Tulio",
+      emailPaciente: "test@test.com",
+      observacoesPaciente:
+          'Observações específicas sobre o tratamento (Clique na foto para editar)',
+      numeroCllPaciente: "(37)99999-9999",
+      estadoPaciente: "MG",
+      cidadePaciente: "Divinópolis",
+      CepPaciente: '3500021');
   var userPrefPac = UserPreferencesPaciente();
   final TextEditingController _txtNomeMedController = TextEditingController();
   final TextEditingController _txtTimeController = TextEditingController();

@@ -28,6 +28,7 @@ class UserPreferencesProf {
         numeroCllProf: pegardobanco.data()?['celular'],
         estadoProf: pegardobanco.data()?['estado'],
         cidadeProf: pegardobanco.data()?['cidade'],
+        CepProf: pegardobanco.data()?['cep'],
       );
     }
     return myUser;
@@ -54,15 +55,15 @@ class UserPreferencesPaciente {
       print(pegardobancopaciente.data());
 
       var newUser = UserPaciente(
-        imagePathPaciente:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-        namePaciente: pegardobancopaciente.data()!['nome'],
-        emailPaciente: pegardobancopaciente.data()!['email'],
-        observacoesPaciente: 'Suas informações (Clique na foto para editar)',
-        numeroCllPaciente: pegardobancopaciente.data()!['celular'],
-        estadoPaciente: pegardobancopaciente.data()!['estado'],
-        cidadePaciente: pegardobancopaciente.data()!['cidade'],
-      );
+          imagePathPaciente:
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+          namePaciente: pegardobancopaciente.data()!['nome'],
+          emailPaciente: pegardobancopaciente.data()!['email'],
+          observacoesPaciente: 'Suas informações (Clique na foto para editar)',
+          numeroCllPaciente: pegardobancopaciente.data()!['celular'],
+          estadoPaciente: pegardobancopaciente.data()!['estado'],
+          cidadePaciente: pegardobancopaciente.data()!['cidade'],
+          CepPaciente: pegardobancopaciente.data()!['cep']);
       return newUser;
     }
 

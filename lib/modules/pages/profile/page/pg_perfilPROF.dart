@@ -17,16 +17,16 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
-  late UserProf uuarioProfissional = UserProf(
-    imagePathProf:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-    nameProf: "Andre",
-    emailProf: "test@test.com",
-    sobreProf: 'Suas informações (Clique na foto para editar)',
-    numeroCllProf: "(37)99999-9999",
-    estadoProf: "GO",
-    cidadeProf: "Goiânia",
-  );
+  late UserProf usuarioProfissional = UserProf(
+      imagePathProf:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+      nameProf: "Andre",
+      emailProf: "test@test.com",
+      sobreProf: 'Suas informações (Clique na foto para editar)',
+      numeroCllProf: "(37)99999-9999",
+      estadoProf: "GO",
+      cidadeProf: "Goiânia",
+      CepProf: '42567893');
   var userPrefPac = UserPreferencesPaciente();
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _PerfilState extends State<Perfil> {
           physics: BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: uuarioProfissional.imagePathProf,
+              imagePath: usuarioProfissional.imagePathProf,
               onClicked: () async {
                 await Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EditProfilePage()));
@@ -46,9 +46,9 @@ class _PerfilState extends State<Perfil> {
             const SizedBox(
               height: 24,
             ),
-            buildNameProf(uuarioProfissional),
-            buildCllCidade(uuarioProfissional),
-            buildAbout(uuarioProfissional),
+            buildNameProf(usuarioProfissional),
+            buildCllCidade(usuarioProfissional),
+            buildAbout(usuarioProfissional),
           ],
         ));
   }
@@ -56,14 +56,14 @@ class _PerfilState extends State<Perfil> {
   Widget buildNameProf(UserProf usuarioProfissional) => Column(
         children: [
           Text(
-            uuarioProfissional.nameProf,
+            usuarioProfissional.nameProf,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(
             height: 4,
           ),
           Text(
-            uuarioProfissional.emailProf,
+            usuarioProfissional.emailProf,
             style: TextStyle(color: Colors.grey),
           )
         ],
@@ -105,7 +105,7 @@ class _PerfilState extends State<Perfil> {
                 height: 16,
               ),
               Text(
-                uuarioProfissional.sobreProf,
+                usuarioProfissional.sobreProf,
                 style: TextStyle(fontSize: 16, height: 1.4),
               ),
               Align(

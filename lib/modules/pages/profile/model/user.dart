@@ -8,6 +8,7 @@ class UserProf {
   String numeroCllProf;
   String estadoProf;
   String cidadeProf;
+  String CepProf;
 
   UserProf({
     required this.imagePathProf,
@@ -17,6 +18,7 @@ class UserProf {
     required this.numeroCllProf,
     required this.estadoProf,
     required this.cidadeProf,
+    required this.CepProf,
   });
 }
 
@@ -28,6 +30,7 @@ class UserPaciente {
   String numeroCllPaciente;
   String estadoPaciente;
   String cidadePaciente;
+  String CepPaciente;
 
   UserPaciente(
       {required this.imagePathPaciente,
@@ -36,5 +39,6 @@ class UserPaciente {
       required this.observacoesPaciente,
       required this.numeroCllPaciente,
       required this.estadoPaciente,
-      required this.cidadePaciente});
+      required this.cidadePaciente,
+      required this.CepPaciente});
 }
