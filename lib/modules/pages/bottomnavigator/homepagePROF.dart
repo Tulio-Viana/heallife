@@ -51,7 +51,7 @@ class _HomePageProfState extends State<HomePageProf> {
           ),
           TableCalendar(
             focusedDay: DateTime.now(),
-            firstDay: DateTime.utc(2010, 10, 16),
+            firstDay: DateTime.now(),
             lastDay: DateTime.utc(2030, 3, 14),
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
@@ -72,9 +72,8 @@ class _HomePageProfState extends State<HomePageProf> {
               _focusedDay = focusedDay;
             },
             availableCalendarFormats: const {
-              CalendarFormat.month: "Mês",
-              CalendarFormat.week: "Semana",
-              CalendarFormat.twoWeeks: "2 Semanas"
+              CalendarFormat.month: "Semana",
+              CalendarFormat.week: "Mês",
             },
             locale: 'pt_BR',
           )

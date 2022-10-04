@@ -21,15 +21,16 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  late UserProf user;
-
-  @override
-  void initState() {
-    super.initState();
-
-    user = UserPreferencesProf.getUser();
-  }
-
+  late UserProf usuarioProfissional = UserProf(
+      imagePathProf:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+      nameProf: "Andre",
+      emailProf: "test@test.com",
+      sobreProf: 'Suas informações (Clique na foto para editar)',
+      numeroCllProf: "(37)99999-9999",
+      estadoProf: "GO",
+      cidadeProf: "Goiânia",
+      CepProf: '42567893');
   @override
   Widget build(BuildContext context) {
     final double largura = MediaQuery.of(context).size.width;
@@ -47,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-              imagePath: user.imagePathProf,
+              imagePath: usuarioProfissional.imagePathProf,
               isEdit: true,
               onClicked: () async {
                 final image =
@@ -59,21 +60,34 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 final name = basename(image.path);
                 final imageFile = File('${directory.path}/$name');
                 final newImage = await File(image.path).copy(imageFile.path);
-
-                setState(() => user = user.copy(imagePathProf: newImage.path));
+                // setState(() => usuarioProfissional = usuarioProfissional.copy(imagePathProf: newImage.path));
+                // Aqui era onde pegava a imagem
               }),
           SizedBox(
             height: 24,
           ),
-          buildNameProf(user),
+          TextFieldWidget(
+              label: 'Celular para contato',
+              text: usuarioProfissional.numeroCllProf,
+              onChanged: (cll) {}),
+          const SizedBox(
+            height: 24,
+          ),
+          TextFieldWidget(
+              label: 'CEP',
+              text: usuarioProfissional.CepProf,
+              onChanged: (cep) {}),
+          const SizedBox(
+            height: 24,
+          ),
           const SizedBox(
             height: 44,
           ),
           TextFieldWidget(
             label: 'Sobre',
-            text: user.sobreProf,
+            text: usuarioProfissional.sobreProf,
             maxLines: 5,
-            onChanged: (about) => user = user.copy(sobreProf: about),
+            onChanged: (sobre) {},
           ),
           const SizedBox(
             height: 40,
@@ -96,7 +110,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 onPressed: () {
-                  UserPreferencesProf.setUser(user);
                   Navigator.of(context).pop();
                 },
               ))
