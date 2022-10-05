@@ -58,6 +58,7 @@ class UserPreferencesPaciente {
           imagePathPaciente:
               'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
           namePaciente: pegardobancopaciente.data()!['nome'],
+          idadePaciente: pegardobancopaciente.data()!['idade'],
           emailPaciente: pegardobancopaciente.data()!['email'],
           observacoesPaciente: 'Suas informações (Clique na foto para editar)',
           numeroCllPaciente: pegardobancopaciente.data()!['celular'],

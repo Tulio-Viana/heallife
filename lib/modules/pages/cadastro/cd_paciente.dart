@@ -143,6 +143,7 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                     ),
                     TextFormField(
                       validator: (value) => Mask.validations.cpf(value),
+                      keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         CpfInputFormatter(),

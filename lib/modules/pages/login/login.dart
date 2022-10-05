@@ -185,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: TextButton(
                       child: Text(
-                        'Cadastre-se',
+                        'Cadastrar',
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.black,
