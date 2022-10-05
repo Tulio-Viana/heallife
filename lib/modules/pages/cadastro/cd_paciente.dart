@@ -301,31 +301,27 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                           dados["cep"] = _controllerCepPaciente.text;
                           dados["cidade"] = _controllerCidadePaciente.text;
                           dados["estado"] = _controllerEstadoPaciente.text;
-                          dados["Idade"] = _controllerIdadePaciente.text;
-                          dados["Email"] = _controllerEmailPaciente.text;
+                          dados["idade"] = _controllerIdadePaciente.text;
+                          dados["email"] = _controllerEmailPaciente.text;
 
                           print('Informacoes: \n$dados');
 
                           PegarUsuario() async {
                             User? usuario = await _firebaseAuth.currentUser;
                             String id;
-                            print('passo 1');
+
                             if (usuario != null) {
-                              print('passo 2');
                               id = usuario.uid;
                               if (id != null) {
-                                print('passo 3');
                                 SalvarInfosUsers(id, dados, "paciente");
                               }
                             }
                             User? teste = await _firebaseAuth.currentUser;
                             String idi = teste!.uid;
-                            print("Id do mano: $idi");
 
                             final pacienteref =
                                 db.collection("paciente").doc(idi);
                             var docsref = pacienteref;
-                            print("Infos do mano: $docsref");
                           }
 
                           login(

@@ -1,7 +1,9 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:idosos/modules/pages/login/login_services.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
+import 'package:idosos/modules/pages/profile/page/userServices.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -20,14 +22,14 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
   late UserPaciente usuarioPaciente = UserPaciente(
       imagePathPaciente:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-      namePaciente: "Tulio",
-      emailPaciente: "test@test.com",
+      namePaciente: "",
+      emailPaciente: "",
       observacoesPaciente:
           'Observações específicas sobre o tratamento (Clique na foto para editar)',
-      numeroCllPaciente: "(37)99999-9999",
-      estadoPaciente: "MG",
-      cidadePaciente: "Divinópolis",
-      CepPaciente: '3500021');
+      numeroCllPaciente: "",
+      estadoPaciente: "",
+      cidadePaciente: "",
+      CepPaciente: '');
   var userPrefPac = UserPreferencesPaciente();
   final TextEditingController _txtNomeMedController = TextEditingController();
   final TextEditingController _txtTimeController = TextEditingController();
@@ -38,27 +40,66 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildAppBar(context),
-        body: ListView(
-          physics: const BouncingScrollPhysics(),
-          children: [
-            ProfileWidget(
-                imagePath: usuarioPaciente.imagePathPaciente,
-                onClicked: () async {
-                  await Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const EditProfilePagePaciente()));
-                  setState(() {});
-                } //para editar a imagem vai ser aqui
-                ),
-            const SizedBox(
-              height: 24,
-            ),
-            buildNamePaciente(usuarioPaciente),
-            buildCllCidade(usuarioPaciente),
-            buildTratamentos(_txtTimeController, _txtNomeMedController,
-                _txtQuantidadeMedController, context),
-            buildObservacoes(usuarioPaciente)
-          ],
-        ));
+        body: FutureBuilder<Map<String, dynamic>?>(
+            future: lerdadosPaciente(),
+            builder: (context, snap) {
+              if (snap.connectionState == ConnectionState.done) {
+                usuarioPaciente.namePaciente = snap.data!['nome'];
+                usuarioPaciente.emailPaciente = snap.data!['email'];
+                usuarioPaciente.observacoesPaciente = snap.data!['observacoes'];
+                usuarioPaciente.numeroCllPaciente = snap.data!['celular'];
+                usuarioPaciente.estadoPaciente = snap.data!['estado'];
+                usuarioPaciente.cidadePaciente = snap.data!['cidade'];
+                usuarioPaciente.CepPaciente = snap.data!['cep'];
+                return ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    ProfileWidget(
+                        imagePath: usuarioPaciente.imagePathPaciente,
+                        onClicked: () async {
+                          await Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => EditProfilePagePaciente()));
+                          setState(() {});
+                        } //para editar a imagem vai ser aqui
+                        ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    buildNamePaciente(usuarioPaciente),
+                    buildCllCidade(usuarioPaciente),
+                    buildTratamentos(_txtTimeController, _txtNomeMedController,
+                        _txtQuantidadeMedController, context),
+                    buildObservacoes(usuarioPaciente),
+                    Align(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 150),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: const BorderSide(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ))),
+                          onPressed: () {
+                            deslogar(context);
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.fromLTRB(40, 2, 40, 2),
+                            child: Text(
+                              "Sair",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }));
   }
 }
 
@@ -223,36 +264,6 @@ Widget buildObservacoes(UserPaciente usuarioPaciente) => Container(
               usuarioPaciente.observacoesPaciente,
               style: const TextStyle(fontSize: 16, height: 1.4),
             ),
-            Align(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 150),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: const BorderSide(
-                            color: Colors.blue,
-                            width: 2,
-                          ))),
-<<<<<<< HEAD
-                  onPressed: () {
-                    deslogar(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
-=======
-                  onPressed: () {},
-                  child: const Padding(
-                    padding: EdgeInsets.fromLTRB(40, 2, 40, 2),
->>>>>>> b3c229fd974e7a189129bcfafa138d65abdda4bf
-                    child: Text(
-                      "Sair",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),
