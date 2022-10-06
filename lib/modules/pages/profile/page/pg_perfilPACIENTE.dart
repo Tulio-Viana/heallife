@@ -62,6 +62,30 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
                 _txtQuantidadeMedController, context),
             buildCidade(usuarioPaciente),
             buildObservacoes(usuarioPaciente),
+            Align(
+              child: Padding(
+                padding: EdgeInsets.only(top: 150),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(
+                            color: Colors.blue,
+                            width: 2,
+                          ))),
+                  onPressed: () {
+                    deslogar(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
+                    child: Text(
+                      "Sair",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ));
   }

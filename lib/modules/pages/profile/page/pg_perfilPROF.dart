@@ -119,7 +119,9 @@ class _PerfilState extends State<Perfil> {
                               color: Colors.blue,
                               width: 2,
                             ))),
-                    onPressed: () {},
+                    onPressed: () {
+                      deslogar(context);
+                    },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(40, 2, 40, 2),
                       child: Text(
