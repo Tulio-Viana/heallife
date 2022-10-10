@@ -21,7 +21,6 @@ class _checagemPageState extends State<checagemPage> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snap) {
           print(snap.data == null);
-
           if (snap.connectionState == ConnectionState.waiting) {
             return Scaffold(body: Center(child: CircularProgressIndicator()));
           } else {

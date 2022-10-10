@@ -16,6 +16,7 @@ import 'package:path/path.dart';
 import 'package:search_cep/search_cep.dart';
 import '../model/user.dart';
 import '../widget/textfield_widget.dart';
+import 'userServices.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -25,6 +26,8 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  var infos = lerProfissional();
+  late UserProf usuarioProfissional = UserProf.fromMap(infos);
   Widget buildNameProf(UserProf usuarioProfissional) => Column(
         children: [
           Text(
@@ -40,16 +43,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
           )
         ],
       );
-  late UserProf usuarioProfissional = UserProf(
-      imagePathProf:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-      nameProf: "Andre",
-      emailProf: "test@test.com",
-      sobreProf: 'Suas informações (Clique na foto para editar)',
-      numeroCllProf: "(37)99999-9999",
-      estadoProf: "GO",
-      cidadeProf: "Goiânia",
-      CepProf: '42567893');
+
+  // imagePathProf:
+  //     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+  // nameProf: "Andre",
+  // emailProf: "test@test.com",
+  // sobreProf: 'Suas informações (Clique na foto para editar)',
+  // numeroCllProf: "(37)99999-9999",
+  // estadoProf: "GO",
+  // cidadeProf: "Goiânia",
+  // CepProf: '42567893');
+
   TextEditingController controller = TextEditingController();
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
@@ -115,7 +119,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-              imagePath: usuarioProfissional.imagePathProf,
+              imagePath: usuarioProfissional.imagePathProf ??
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
               isEdit: true,
               onClicked: () async {
                 final image =

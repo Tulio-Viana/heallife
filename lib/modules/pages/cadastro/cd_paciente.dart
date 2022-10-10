@@ -296,14 +296,21 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
                             _controllerSenhaPaciente.text, context)) {
                           Map<String, String> dados = Map<String, String>();
 
-                          dados["nome"] = _controllerUsuarioPaciente.text;
-                          dados["celular"] = _controllerCelularPaciente.text;
+                          dados["tipo"] = "paciente";
+                          dados["namePaciente"] =
+                              _controllerUsuarioPaciente.text;
+                          dados["numeroCllPaciente"] =
+                              _controllerCelularPaciente.text;
                           dados["cpf"] = _controllerCPFPaciente.text;
-                          dados["cep"] = _controllerCepPaciente.text;
-                          dados["cidade"] = _controllerCidadePaciente.text;
-                          dados["estado"] = _controllerEstadoPaciente.text;
-                          dados["idade"] = _controllerIdadePaciente.text;
-                          dados["email"] = _controllerEmailPaciente.text;
+                          dados["CepPaciente"] = _controllerCepPaciente.text;
+                          dados["cidadePaciente"] =
+                              _controllerCidadePaciente.text;
+                          dados["estadoPaciente"] =
+                              _controllerEstadoPaciente.text;
+                          dados["idadePaciente"] =
+                              _controllerIdadePaciente.text;
+                          dados["emailPaciente"] =
+                              _controllerEmailPaciente.text;
 
                           print('Informacoes: \n$dados');
 

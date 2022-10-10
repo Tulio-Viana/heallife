@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -8,6 +10,9 @@ import 'package:idosos/modules/pages/bottomnavigator/notificacoesProfissional.da
 import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
 import 'package:idosos/modules/pages/bottomnavigator/pg_ranking.dart';
+
+FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+FirebaseFirestore bd = FirebaseFirestore.instance;
 
 class PaginaPrincipal extends StatefulWidget {
   const PaginaPrincipal({Key? key}) : super(key: key);
@@ -28,9 +33,22 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   bool Cuidador = false;
   late List<Widget> _widgetOptions;
+
+  lertipo() async {
+    User? usuario = await _firebaseAuth.currentUser;
+    String id = usuario!.uid;
+    String tipoUsuario = "";
+    final docRef = await bd.collection("profissional").doc(id);
+    if (docRef != null) {
+      Cuidador = true;
+    } else
+      Cuidador = false;
+    return Cuidador;
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
+    lertipo();
     super.initState();
     _widgetOptions = <Widget>[
       Cuidador ? const HomePageProf() : const homepagePaciente(),

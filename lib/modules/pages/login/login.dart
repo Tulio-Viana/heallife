@@ -154,7 +154,6 @@ class _LoginPageState extends State<LoginPage> {
                           String password = _controllerSenhaLogin.text;
 
                           await login(email, password, context, isloading);
-                          await lerdadosPaciente();
                         }
                         print(_controllerEmailLogin.text.trim());
                         print(_controllerSenhaLogin.text.trim());

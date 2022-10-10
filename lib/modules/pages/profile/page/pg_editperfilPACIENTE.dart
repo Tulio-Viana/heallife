@@ -13,6 +13,7 @@ import 'package:search_cep/search_cep.dart';
 import '../../../../Functions/Login.functions.dart';
 import '../model/user.dart';
 import '../widget/textfield_widget.dart';
+import 'userServices.dart';
 
 class EditProfilePagePaciente extends StatefulWidget {
   const EditProfilePagePaciente({Key? key}) : super(key: key);
@@ -23,17 +24,18 @@ class EditProfilePagePaciente extends StatefulWidget {
 }
 
 class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
-  late UserPaciente usuarioPaciente = UserPaciente(
-      imagePathPaciente:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-      namePaciente: "Tulio",
-      idadePaciente: '17',
-      emailPaciente: "test@test.com",
-      observacoesPaciente: 'Suas informações (Clique na foto para editar)',
-      numeroCllPaciente: "(37)99999-9999",
-      estadoPaciente: "MG",
-      cidadePaciente: "Divinópolis",
-      CepPaciente: '35500021');
+  var infos = lerPaciente();
+  late UserPaciente usuarioPaciente = UserPaciente.fromMap(infos);
+  // imagePathPaciente:
+  //     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+  // namePaciente: "Tulio",
+  // idadePaciente: '17',
+  // emailPaciente: "test@test.com",
+  // observacoesPaciente: 'Suas informações (Clique na foto para editar)',
+  // numeroCllPaciente: "(37)99999-9999",
+  // estadoPaciente: "MG",
+  // cidadePaciente: "Divinópolis",
+  // CepPaciente: '35500021');
   TextEditingController controller = TextEditingController();
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
@@ -99,7 +101,8 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-                imagePath: usuarioPaciente.imagePathPaciente,
+                imagePath: usuarioPaciente.imagePathPaciente ??
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
                 isEdit: true,
                 onClicked: () async {
                   final image =
@@ -123,7 +126,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
             ),
             TextFieldWidget(
               label: 'Idade',
-              text: usuarioPaciente.idadePaciente,
+              text: usuarioPaciente.idadePaciente ?? '',
               controller: controller3,
               Inputformatter: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -135,7 +138,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
             ),
             TextFieldWidget(
               label: 'Celular para contato',
-              text: usuarioPaciente.numeroCllPaciente,
+              text: usuarioPaciente.numeroCllPaciente ?? '',
               controller: controller,
               validator: (value) => Mask.validations.phone(value),
               Inputformatter: [
@@ -158,7 +161,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
                     }
                   },
                   label: 'CEP',
-                  text: usuarioPaciente.CepPaciente,
+                  text: usuarioPaciente.CepPaciente ?? '',
                   controller: controller1,
                   Inputformatter: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -181,7 +184,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
             ),
             TextFieldWidget(
               label: 'Observações',
-              text: usuarioPaciente.observacoesPaciente,
+              text: usuarioPaciente.observacoesPaciente ?? '',
               controller: controller2,
               maxLines: 5,
             ),

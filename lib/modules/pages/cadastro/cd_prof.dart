@@ -334,16 +334,20 @@ class _CdProfPageState extends State<Cd_Prof_Page> {
                             _controllerSenhaProfissional.text,
                             context)) {
                           Map<String, String> dados = Map<String, String>();
-
-                          dados["nome"] = _controllerUsuarioProfissional.text;
-                          dados["celular"] =
+                          dados["tipo"] = "profissional";
+                          dados["nameProf"] =
+                              _controllerUsuarioProfissional.text;
+                          dados["numeroCllProf"] =
                               _controllerCelularProfissional.text;
                           dados["cpf"] = _controllerCPFProfissional.text;
                           dados["coren"] = _controllerCORENProfissional.text;
-                          dados["cep"] = _controllerCepProfissional.text;
-                          dados["cidade"] = _controllerCidadeProfissional.text;
-                          dados["estado"] = _controllerEstadoProfissional.text;
-                          dados["email"] = _controllerEmailProfissional.text;
+                          dados["CepProf"] = _controllerCepProfissional.text;
+                          dados["cidadeProf"] =
+                              _controllerCidadeProfissional.text;
+                          dados["estadoProf"] =
+                              _controllerEstadoProfissional.text;
+                          dados["emailProf"] =
+                              _controllerEmailProfissional.text;
 
                           PegarUsuario() async {
                             User? usuario = await _firebaseAuth.currentUser;

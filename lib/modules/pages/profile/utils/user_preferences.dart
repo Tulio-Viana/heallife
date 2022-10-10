@@ -54,18 +54,18 @@ class UserPreferencesPaciente {
         pegardobancopaciente.data() != null) {
       print(pegardobancopaciente.data());
 
-      var newUser = UserPaciente(
-          imagePathPaciente:
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-          namePaciente: pegardobancopaciente.data()!['nome'],
-          idadePaciente: pegardobancopaciente.data()!['idade'],
-          emailPaciente: pegardobancopaciente.data()!['email'],
-          observacoesPaciente: 'Suas informações (Clique na foto para editar)',
-          numeroCllPaciente: pegardobancopaciente.data()!['celular'],
-          estadoPaciente: pegardobancopaciente.data()!['estado'],
-          cidadePaciente: pegardobancopaciente.data()!['cidade'],
-          CepPaciente: pegardobancopaciente.data()!['cep']);
-      return newUser;
+      // var newUser = UserPaciente(
+      //     imagePathPaciente:
+      //         'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+      //     namePaciente: pegardobancopaciente.data()!['nome'],
+      //     idadePaciente: pegardobancopaciente.data()!['idade'],
+      //     emailPaciente: pegardobancopaciente.data()!['email'],
+      //     observacoesPaciente: 'Suas informações (Clique na foto para editar)',
+      //     numeroCllPaciente: pegardobancopaciente.data()!['celular'],
+      //     estadoPaciente: pegardobancopaciente.data()!['estado'],
+      //     cidadePaciente: pegardobancopaciente.data()!['cidade'],
+      //     CepPaciente: pegardobancopaciente.data()!['cep']);
+      // return newUser;
     }
 
     return myUser;

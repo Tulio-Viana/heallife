@@ -34,3 +34,18 @@ criarUsuario(String emailAddress, String password, context) async {
 SalvarInfosUsers(String id, Map<String, dynamic> dados, String tipo) {
   final alovelaceDocumentRef = db.collection(tipo).doc(id).set(dados);
 }
+
+cadastrarRemedios(
+    String id, Map<String, dynamic> remedios, String tipo, context) {
+  final alovelaceDocumentRef = db.collection(tipo).doc(id).set(remedios);
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      duration: Duration(milliseconds: 1500),
+      content: Text(
+        'Remédio cadastrado com sucesso!',
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: Colors.greenAccent,
+    ),
+  );
+}

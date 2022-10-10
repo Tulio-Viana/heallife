@@ -1,6 +1,11 @@
+import 'dart:html';
+
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:idosos/modules/pages/cadastro/cadastroServices.dart';
 import 'package:idosos/modules/pages/login/login_services.dart';
 import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/userServices.dart';
@@ -12,6 +17,9 @@ import '../model/user.dart';
 import '../widget/profile_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+FirebaseFirestore db = FirebaseFirestore.instance;
+
 class PerfilPaciente extends StatefulWidget {
   const PerfilPaciente({Key? key}) : super(key: key);
 
@@ -20,18 +28,89 @@ class PerfilPaciente extends StatefulWidget {
 }
 
 class _PerfilPacienteState extends State<PerfilPaciente> {
-  late UserPaciente usuarioPaciente = UserPaciente(
-      imagePathPaciente:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-      namePaciente: "Tulio",
-      idadePaciente: '',
-      emailPaciente: "",
-      observacoesPaciente:
-          'Observações específicas sobre o tratamento (Clique na foto para editar)',
-      numeroCllPaciente: "",
-      estadoPaciente: "",
-      cidadePaciente: "",
-      CepPaciente: '');
+  Map<String, dynamic> infos = {};
+  late UserPaciente usuarioPaciente = UserPaciente();
+  // imagePathPaciente:
+  //     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+
+  @override
+  void initState() {
+    super.initState();
+    lerDados();
+  }
+
+  lerDados() async {
+    User? usuario = await _firebaseAuth.currentUser;
+    String id = usuario!.uid;
+    final docRef = await db.collection("paciente").doc(id);
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.namePaciente = event
+              .data()
+              .toString()
+              .split("namePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.idadePaciente = event
+              .data()
+              .toString()
+              .split("idadePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.emailPaciente = event
+              .data()
+              .toString()
+              .split("emailPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.numeroCllPaciente = event
+              .data()
+              .toString()
+              .split("numeroCllPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.estadoPaciente = event
+              .data()
+              .toString()
+              .split("estadoPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.cidadePaciente = event
+              .data()
+              .toString()
+              .split("cidadePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.CepPaciente = event
+              .data()
+              .toString()
+              .split("CepPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    setState(() {
+      usuarioPaciente;
+    });
+  }
+
   var userPrefPac = UserPreferencesPaciente();
   final TextEditingController _txtNomeMedController = TextEditingController();
   final TextEditingController _txtTimeController = TextEditingController();
@@ -46,7 +125,8 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-                imagePath: usuarioPaciente.imagePathPaciente,
+                imagePath: usuarioPaciente.imagePathPaciente ??
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
                 onClicked: () async {
                   await Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const EditProfilePagePaciente()));
@@ -60,7 +140,6 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
             buildCidade(usuarioPaciente),
             buildTratamentos(_txtTimeController, _txtNomeMedController,
                 _txtQuantidadeMedController, context),
-            buildCidade(usuarioPaciente),
             buildObservacoes(usuarioPaciente),
             Align(
               child: Padding(
@@ -101,7 +180,7 @@ Widget buildNamePaciente(UserPaciente usuarioPaciente) => Column(
           height: 4,
         ),
         Text(
-          usuarioPaciente.emailPaciente,
+          usuarioPaciente.emailPaciente ?? '',
           style: const TextStyle(color: Colors.grey),
         ),
       ],
@@ -191,20 +270,26 @@ Widget buildTratamentos(
                     Padding(
                       padding: const EdgeInsets.only(top: 40),
                       child: ElevatedButton(
-                          onPressed: () {
-                            _txtNomeMedController.text = "";
-                            _txtQuantidadeMedController.text = "";
-                            _txtTimeController.text = "";
+                          onPressed: () async {
+                            Map<String, String> remedios =
+                                Map<String, String>();
+                            remedios["NomeRemedio"] =
+                                _txtNomeMedController.text;
+                            remedios["QuantidadeRemedio"] =
+                                _txtQuantidadeMedController.text;
+                            remedios["HorarioRemedio"] =
+                                _txtTimeController.text;
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                duration: Duration(milliseconds: 1500),
-                                content: Text(
-                                  'Remédio cadastrado com sucesso!',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
+                            User? usuario = await _firebaseAuth.currentUser;
+                            String id;
+
+                            if (usuario != null) {
+                              id = usuario.uid;
+                              if (id != null) {
+                                cadastrarRemedios(
+                                    id, remedios, "remedios", context);
+                              }
+                            }
                           },
                           child: const Text('Cadastrar remédio')),
                     )
@@ -249,7 +334,7 @@ Widget buildObservacoes(UserPaciente usuarioPaciente) => Container(
               height: 16,
             ),
             Text(
-              usuarioPaciente.observacoesPaciente,
+              usuarioPaciente.observacoesPaciente ?? '',
               style: const TextStyle(fontSize: 16, height: 1.4),
             ),
           ],
