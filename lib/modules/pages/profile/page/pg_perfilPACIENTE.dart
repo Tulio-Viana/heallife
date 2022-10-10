@@ -138,8 +138,129 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
             ),
             buildNamePaciente(usuarioPaciente),
             buildCidade(usuarioPaciente),
-            buildTratamentos(_txtTimeController, _txtNomeMedController,
-                _txtQuantidadeMedController, context),
+            Container(
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          const Padding(
+                              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                              child: ExpansionTile(
+                                  title: Text('Medicamentos Cadastrados: '),
+                                  children: [
+                                    Divider(
+                                      indent: 2,
+                                      endIndent: 2,
+                                      height: 5,
+                                      thickness: 2,
+                                      color: Colors.black,
+                                    ),
+                                  ])),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: ExpansionTile(
+                              title: const Text(
+                                  'Clique aqui para cadastrar seu medicamento!'),
+                              children: [
+                                const Divider(
+                                  indent: 2,
+                                  endIndent: 2,
+                                  height: 5,
+                                  thickness: 2,
+                                  color: Colors.black,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: TextFormField(
+                                    controller: _txtNomeMedController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Nome do medicamento',
+                                        hintStyle:
+                                            TextStyle(color: Colors.black)),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: TextFormField(
+                                    controller: _txtTimeController,
+                                    keyboardType: TextInputType.datetime,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      HoraInputFormatter()
+                                    ],
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Horário de ingestão (00:00)',
+                                        hintStyle:
+                                            TextStyle(color: Colors.black)),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: _txtQuantidadeMedController,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Quantidade ingerida',
+                                        hintStyle:
+                                            TextStyle(color: Colors.black)),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: ElevatedButton(
+                                      onPressed: () async {
+                                        Map<String, String> remedios =
+                                            Map<String, String>();
+                                        remedios["NomeRemedio"] =
+                                            _txtNomeMedController.text;
+                                        remedios["QuantidadeRemedio"] =
+                                            _txtQuantidadeMedController.text;
+                                        remedios["HorarioRemedio"] =
+                                            _txtTimeController.text;
+
+                                        User? usuario =
+                                            await _firebaseAuth.currentUser;
+                                        String id;
+
+                                        if (usuario != null) {
+                                          id = usuario.uid;
+                                          if (id != null) {
+                                            cadastrarRemedios(id, remedios,
+                                                "remedios", context);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                duration: Duration(
+                                                    milliseconds: 1500),
+                                                content: Text(
+                                                  'Remédio cadastrado com sucesso!',
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
+                                      child: const Text('Cadastrar remédio')),
+                                )
+                              ],
+                            ),
+                          ),
+                        ]))),
+            buildCidade(usuarioPaciente),
             buildObservacoes(usuarioPaciente),
             Align(
               child: Padding(
@@ -185,118 +306,6 @@ Widget buildNamePaciente(UserPaciente usuarioPaciente) => Column(
         ),
       ],
     );
-
-Widget buildTratamentos(
-        TextEditingController _txtTimeController,
-        TextEditingController _txtNomeMedController,
-        TextEditingController _txtQuantidadeMedController,
-        BuildContext context) =>
-    Container(
-        child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(
-                height: 16,
-              ),
-              const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: ExpansionTile(
-                      title: Text('Medicamentos Cadastrados: '),
-                      children: [
-                        Divider(
-                          indent: 2,
-                          endIndent: 2,
-                          height: 5,
-                          thickness: 2,
-                          color: Colors.black,
-                        ),
-                      ])),
-              const SizedBox(
-                height: 16,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: ExpansionTile(
-                  title:
-                      const Text('Clique aqui para cadastrar seu medicamento!'),
-                  children: [
-                    const Divider(
-                      indent: 2,
-                      endIndent: 2,
-                      height: 5,
-                      thickness: 2,
-                      color: Colors.black,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: TextFormField(
-                        controller: _txtNomeMedController,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Nome do medicamento',
-                            hintStyle: TextStyle(color: Colors.black)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: TextFormField(
-                        controller: _txtTimeController,
-                        keyboardType: TextInputType.datetime,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                          HoraInputFormatter()
-                        ],
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Horário de ingestão (00:00)',
-                            hintStyle: TextStyle(color: Colors.black)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: _txtQuantidadeMedController,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Quantidade ingerida',
-                            hintStyle: TextStyle(color: Colors.black)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            Map<String, String> remedios =
-                                Map<String, String>();
-                            remedios["NomeRemedio"] =
-                                _txtNomeMedController.text;
-                            remedios["QuantidadeRemedio"] =
-                                _txtQuantidadeMedController.text;
-                            remedios["HorarioRemedio"] =
-                                _txtTimeController.text;
-
-                            User? usuario = await _firebaseAuth.currentUser;
-                            String id;
-
-                            if (usuario != null) {
-                              id = usuario.uid;
-                              if (id != null) {
-                                cadastrarRemedios(
-                                    id, remedios, "remedios", context);
-                              }
-                            }
-                          },
-                          child: const Text('Cadastrar remédio')),
-                    )
-                  ],
-                ),
-              ),
-            ])));
 
 Widget buildCidade(UserPaciente usuarioPaciente) => Container(
       child: Padding(

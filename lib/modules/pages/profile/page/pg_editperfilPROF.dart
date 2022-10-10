@@ -44,16 +44,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ],
       );
 
-  // imagePathProf:
-  //     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-  // nameProf: "Andre",
-  // emailProf: "test@test.com",
-  // sobreProf: 'Suas informações (Clique na foto para editar)',
-  // numeroCllProf: "(37)99999-9999",
-  // estadoProf: "GO",
-  // cidadeProf: "Goiânia",
-  // CepProf: '42567893');
-
   TextEditingController controller = TextEditingController();
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();

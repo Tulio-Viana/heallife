@@ -9,7 +9,6 @@ class TextFieldWidget extends StatefulWidget {
   final String text;
   final List<TextInputFormatter>? Inputformatter;
   Function(String)? onChanged;
-
   String? Function(String?)? validator;
   TextEditingController? controller;
 

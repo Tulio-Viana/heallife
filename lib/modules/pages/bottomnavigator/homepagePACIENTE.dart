@@ -33,7 +33,7 @@ class _homepagePacienteState extends State<homepagePaciente> {
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
-              'Selecione o dia para atendimento realização do atendimento',
+              'Selecione o dia para realização do atendimento:',
               style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
@@ -61,6 +61,7 @@ class _homepagePacienteState extends State<homepagePaciente> {
                 _focusedDay = focusedDay;
               });
             },
+            calendarStyle: const CalendarStyle(outsideDaysVisible: false),
             calendarFormat: _calendarFormat,
             onFormatChanged: (format) {
               setState(() {
