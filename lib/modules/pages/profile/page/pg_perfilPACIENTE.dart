@@ -11,8 +11,10 @@ import 'package:idosos/modules/pages/profile/page/pg_editperfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/userServices.dart';
 import 'package:idosos/modules/pages/profile/utils/user_preferences.dart';
 import 'package:idosos/modules/pages/profile/widget/appbar_widget.dart';
+import 'package:idosos/modules/pages/profile/widget/card_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:search_cep/search_cep.dart';
+import '../model/medicamento.dart';
 import '../model/user.dart';
 import '../widget/profile_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -32,10 +34,12 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
   late UserPaciente usuarioPaciente = UserPaciente();
   // imagePathPaciente:
   //     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
+  bool existemed = false;
 
   @override
   void initState() {
     super.initState();
+    existemed = false;
     lerDados();
   }
 
@@ -117,6 +121,9 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
   final TextEditingController _txtQuantidadeMedController =
       TextEditingController();
 
+  late Medicamento medicamento =
+      Medicamento(NomeMed: 'Viagra', HorarioMed: '23:13', QuantMeed: '2');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,19 +154,19 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
                           const SizedBox(
                             height: 16,
                           ),
-                          const Padding(
+                          Padding(
                               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                               child: ExpansionTile(
+                                  childrenPadding:
+                                      EdgeInsets.symmetric(vertical: 10),
                                   title: Text('Medicamentos Cadastrados: '),
-                                  children: [
-                                    Divider(
-                                      indent: 2,
-                                      endIndent: 2,
-                                      height: 5,
-                                      thickness: 2,
-                                      color: Colors.black,
-                                    ),
-                                  ])),
+                                  children: existemed
+                                      ? [
+                                          CardWidget(
+                                              'Horário: ${medicamento.HorarioMed} - Quantidade: ${medicamento.QuantMeed}',
+                                              '${medicamento.NomeMed}')
+                                        ]
+                                      : [])),
                           const SizedBox(
                             height: 16,
                           ),
@@ -169,13 +176,6 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
                               title: const Text(
                                   'Clique aqui para cadastrar seu medicamento!'),
                               children: [
-                                const Divider(
-                                  indent: 2,
-                                  endIndent: 2,
-                                  height: 5,
-                                  thickness: 2,
-                                  color: Colors.black,
-                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: TextFormField(
@@ -222,35 +222,46 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
                                   padding: const EdgeInsets.only(top: 40),
                                   child: ElevatedButton(
                                       onPressed: () async {
-                                        Map<String, String> remedios =
-                                            Map<String, String>();
-                                        remedios["NomeRemedio"] =
-                                            _txtNomeMedController.text;
-                                        remedios["QuantidadeRemedio"] =
-                                            _txtQuantidadeMedController.text;
-                                        remedios["HorarioRemedio"] =
-                                            _txtTimeController.text;
-
-                                        User? usuario =
-                                            await _firebaseAuth.currentUser;
-                                        String id;
-
-                                        if (usuario != null) {
-                                          id = usuario.uid;
-                                          if (id != null) {
-                                            cadastrarRemedios(id, remedios,
-                                                "remedios", context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                duration: Duration(
-                                                    milliseconds: 1500),
-                                                content: Text(
-                                                  'Remédio cadastrado com sucesso!',
-                                                  textAlign: TextAlign.center,
-                                                ),
+                                        setState(() {
+                                          existemed = true;
+                                        });
+                                        if (_txtNomeMedController
+                                                .text.isEmpty ||
+                                            _txtQuantidadeMedController
+                                                .text.isEmpty ||
+                                            _txtTimeController.text.isEmpty) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              duration:
+                                                  Duration(milliseconds: 1500),
+                                              content: Text(
+                                                'Preencha todos os campos!',
+                                                textAlign: TextAlign.center,
                                               ),
-                                            );
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                        } else {
+                                          Map<String, String> remedios =
+                                              Map<String, String>();
+                                          remedios["NomeRemedio"] =
+                                              _txtNomeMedController.text;
+                                          remedios["QuantidadeRemedio"] =
+                                              _txtQuantidadeMedController.text;
+                                          remedios["HorarioRemedio"] =
+                                              _txtTimeController.text;
+
+                                          User? usuario =
+                                              await _firebaseAuth.currentUser;
+                                          String id;
+
+                                          if (usuario != null) {
+                                            id = usuario.uid;
+                                            if (id != null) {
+                                              cadastrarRemedios(id, remedios,
+                                                  "remedios", context);
+                                            }
                                           }
                                         }
                                       },
