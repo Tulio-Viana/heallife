@@ -68,6 +68,7 @@ class _HomePageProfState extends State<HomePageProf> {
                 _calendarFormat = format;
               });
             },
+            calendarStyle: const CalendarStyle(outsideDaysVisible: false),
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
             },

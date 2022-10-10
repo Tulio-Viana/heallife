@@ -50,6 +50,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       estadoProf: "GO",
       cidadeProf: "Goiânia",
       CepProf: '42567893');
+
   TextEditingController controller = TextEditingController();
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
