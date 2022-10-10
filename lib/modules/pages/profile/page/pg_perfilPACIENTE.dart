@@ -57,8 +57,12 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
-          (event) => usuarioPaciente.idadePaciente =
-              event.data().toString().split("idadePaciente")[1].split(":")[1],
+          (event) => usuarioPaciente.idadePaciente = event
+              .data()
+              .toString()
+              .split("idadePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
@@ -85,7 +89,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
               .toString()
               .split("estadoPaciente")[1]
               .split(":")[1]
-              .split(",")[0],
+              .split("}")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
@@ -267,7 +271,6 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
                             ),
                           ),
                         ]))),
-            buildCidade(usuarioPaciente),
             buildObservacoes(usuarioPaciente),
             Align(
               child: Padding(
@@ -301,7 +304,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
 Widget buildNamePaciente(UserPaciente usuarioPaciente) => Column(
       children: [
         Text(
-          '${usuarioPaciente.namePaciente} - ${usuarioPaciente.idadePaciente} anos',
+          '${usuarioPaciente.namePaciente} - ${usuarioPaciente.idadePaciente?.trim()} anos',
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         const SizedBox(
@@ -323,12 +326,24 @@ Widget buildCidade(UserPaciente usuarioPaciente) => Container(
             const SizedBox(
               height: 18,
             ),
-            AutoSizeText(
-              'Celular: ${usuarioPaciente.numeroCllPaciente}      Cidade: ${usuarioPaciente.cidadePaciente} - ${usuarioPaciente.estadoPaciente}',
-              maxLines: 1,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                AutoSizeText(
+                  'Celular: ${usuarioPaciente.numeroCllPaciente}',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                AutoSizeText(
+                  'Cidade: ${usuarioPaciente.cidadePaciente} - ${usuarioPaciente.estadoPaciente?.trim()}',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             )
           ],
         ),
