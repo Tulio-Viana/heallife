@@ -57,12 +57,8 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
-          (event) => usuarioPaciente.idadePaciente = event
-              .data()
-              .toString()
-              .split("idadePaciente")[1]
-              .split(":")[1]
-              .split(",")[0],
+          (event) => usuarioPaciente.idadePaciente =
+              event.data().toString().split("idadePaciente")[1].split(":")[1],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(

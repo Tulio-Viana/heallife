@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
@@ -15,6 +17,9 @@ import '../model/user.dart';
 import '../widget/textfield_widget.dart';
 import 'userServices.dart';
 
+FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+FirebaseFirestore db = FirebaseFirestore.instance;
+
 class EditProfilePagePaciente extends StatefulWidget {
   const EditProfilePagePaciente({Key? key}) : super(key: key);
 
@@ -24,18 +29,77 @@ class EditProfilePagePaciente extends StatefulWidget {
 }
 
 class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
-  var infos = lerPaciente();
+  Map<String, dynamic> infos = {};
   late UserPaciente usuarioPaciente = UserPaciente.fromMap(infos);
-  // imagePathPaciente:
-  //     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png',
-  // namePaciente: "Tulio",
-  // idadePaciente: '17',
-  // emailPaciente: "test@test.com",
-  // observacoesPaciente: 'Suas informações (Clique na foto para editar)',
-  // numeroCllPaciente: "(37)99999-9999",
-  // estadoPaciente: "MG",
-  // cidadePaciente: "Divinópolis",
-  // CepPaciente: '35500021');
+
+  lerDados() async {
+    User? usuario = await _firebaseAuth.currentUser;
+    String id = usuario!.uid;
+    final docRef = await db.collection("paciente").doc(id);
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.namePaciente = event
+              .data()
+              .toString()
+              .split("namePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.idadePaciente =
+              event.data().toString().split("idadePaciente")[1].split(":")[1],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.emailPaciente = event
+              .data()
+              .toString()
+              .split("emailPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.numeroCllPaciente = event
+              .data()
+              .toString()
+              .split("numeroCllPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.estadoPaciente = event
+              .data()
+              .toString()
+              .split("estadoPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.cidadePaciente = event
+              .data()
+              .toString()
+              .split("cidadePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    docRef.snapshots().listen(
+          (event) => usuarioPaciente.CepPaciente = event
+              .data()
+              .toString()
+              .split("CepPaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
+          onError: (error) => print("Listen failed: $error"),
+        );
+    setState(() {
+      usuarioPaciente;
+    });
+  }
+
   TextEditingController controller = TextEditingController();
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
