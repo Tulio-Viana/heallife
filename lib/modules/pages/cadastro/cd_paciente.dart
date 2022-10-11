@@ -51,11 +51,11 @@ class _CdRespPageState extends State<Cd_Resp_Page> {
         await viaCepSearchCep.searchInfoByCep(cep: _controllerCepPaciente.text);
     print(infoCepJSON);
     infoCepJSON.toString().split(",");
-    print(infoCepJSON.toString().split(",")[4].split(":")[1]);
+    print(infoCepJSON.toString().split(",")[3].split(":")[1]);
     _controllerCidadePaciente.text =
-        infoCepJSON.toString().split(",")[4].split(":")[1];
-    _controllerEstadoPaciente.text =
         infoCepJSON.toString().split(",")[5].split(":")[1];
+    _controllerEstadoPaciente.text =
+        infoCepJSON.toString().split(",")[6].split(":")[1];
     print(_controllerEstadoPaciente.text);
   }
 

@@ -44,6 +44,9 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
     String id = usuario!.uid;
     final docRef = await db.collection("paciente").doc(id);
     docRef.snapshots().listen(
+          (event) => print("current data: ${event.data()}"),
+        );
+    docRef.snapshots().listen(
           (event) => usuarioPaciente.namePaciente = event
               .data()
               .toString()
@@ -53,8 +56,12 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
-          (event) => usuarioPaciente.idadePaciente =
-              event.data().toString().split("idadePaciente")[1].split(":")[1],
+          (event) => usuarioPaciente.idadePaciente = event
+              .data()
+              .toString()
+              .split("idadePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
