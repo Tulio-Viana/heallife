@@ -38,14 +38,26 @@ Widget buildCllCidade(UserProf usuarioProfissional) => Container(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 20,
+              height: 18,
             ),
-            AutoSizeText(
-              'Celular: ${usuarioProfissional.numeroCllProf}      Cidade: ${usuarioProfissional.cidadeProf} - ${usuarioProfissional.estadoProf}',
-              maxLines: 1,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                AutoSizeText(
+                  'Celular: ${usuarioProfissional.numeroCllProf}',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                AutoSizeText(
+                  'Cidade: ${usuarioProfissional.cidadeProf} - ${usuarioProfissional.estadoProf.trim()}',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             )
           ],
         ),
@@ -123,7 +135,7 @@ class _PerfilState extends State<Perfil> {
               .toString()
               .split("estadoProf")[1]
               .split(":")[1]
-              .split(",")[0],
+              .split("}")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(

@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import '../model/medicamento.dart';
 
 class CardWidget extends StatefulWidget {
-  CardWidget();
+  String titulo;
+  String subtitle;
+  CardWidget(
+    this.subtitle,
+    this.titulo,
+  );
   //construtor
 
   @override
@@ -11,16 +16,13 @@ class CardWidget extends StatefulWidget {
 }
 
 class _CardWidgetState extends State<CardWidget> {
-  late Medicamento medicamento =
-      Medicamento(NomeMed: 'Viagra', HorarioMed: '23:13', QuantMeed: '2');
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        title: Text(medicamento.NomeMed),
-        subtitle: Text(
-            'Horário: ${medicamento.HorarioMed} - Quantidade: ${medicamento.QuantMeed}'),
-      ),
-    );
+        color: Colors.blue.shade50,
+        child: ListTile(
+          title: Text(widget.titulo),
+          subtitle: Text(widget.subtitle),
+        ));
   }
 }

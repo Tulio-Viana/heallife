@@ -30,7 +30,20 @@ class EditProfilePagePaciente extends StatefulWidget {
 
 class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
   Map<String, dynamic> infos = {};
+  TextEditingController controller = TextEditingController();
+  TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
+  TextEditingController controller3 = TextEditingController();
+  TextEditingController _controllerCepPacientePerfil = TextEditingController();
+  TextEditingController _controllerCidadePacientePerfil =
+      TextEditingController();
+  TextEditingController _controllerEstadoPacientePerfil =
+      TextEditingController();
   late UserPaciente usuarioPaciente = UserPaciente.fromMap(infos);
+  initState() {
+    super.initState();
+    lerDados();
+  }
 
   lerDados() async {
     User? usuario = await _firebaseAuth.currentUser;
@@ -46,8 +59,12 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
-          (event) => usuarioPaciente.idadePaciente =
-              event.data().toString().split("idadePaciente")[1].split(":")[1],
+          (event) => usuarioPaciente.idadePaciente = event
+              .data()
+              .toString()
+              .split("idadePaciente")[1]
+              .split(":")[1]
+              .split(",")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
@@ -74,7 +91,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
               .toString()
               .split("estadoPaciente")[1]
               .split(":")[1]
-              .split(",")[0],
+              .split("}")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
@@ -98,17 +115,14 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
     setState(() {
       usuarioPaciente;
     });
+    setState(() {
+      controller.text = usuarioPaciente.numeroCllPaciente!;
+      controller1.text = usuarioPaciente.CepPaciente!;
+      controller2.text = usuarioPaciente.observacoesPaciente!;
+      controller3.text = usuarioPaciente.idadePaciente!;
+    });
   }
 
-  TextEditingController controller = TextEditingController();
-  TextEditingController controller1 = TextEditingController();
-  TextEditingController controller2 = TextEditingController();
-  TextEditingController controller3 = TextEditingController();
-  TextEditingController _controllerCepPacientePerfil = TextEditingController();
-  TextEditingController _controllerCidadePacientePerfil =
-      TextEditingController();
-  TextEditingController _controllerEstadoPacientePerfil =
-      TextEditingController();
   String ErroCep = '';
   bool isloading = false;
 
