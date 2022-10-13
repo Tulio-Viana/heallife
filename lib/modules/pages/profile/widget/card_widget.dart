@@ -6,8 +6,8 @@ class CardWidget extends StatefulWidget {
   String titulo;
   String subtitle;
   CardWidget(
-    this.subtitle,
     this.titulo,
+    this.subtitle,
   );
   //construtor
 
@@ -21,8 +21,19 @@ class _CardWidgetState extends State<CardWidget> {
     return Card(
         color: Colors.blue.shade50,
         child: ListTile(
-          title: Text(widget.titulo),
-          subtitle: Text(widget.subtitle),
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          leading: Icon(
+            Icons.medication_rounded,
+            size: 35,
+          ),
+          title: Text(
+            widget.titulo,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+          ),
+          subtitle: Text(
+            widget.subtitle,
+            style: TextStyle(fontSize: 15),
+          ),
         ));
   }
 }

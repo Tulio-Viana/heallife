@@ -39,7 +39,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
   @override
   void initState() {
     super.initState();
-    existemed = false;
+    existemed = true;
     lerDados();
   }
 
@@ -125,7 +125,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
       TextEditingController();
 
   late Medicamento medicamento =
-      Medicamento(NomeMed: 'Viagra', HorarioMed: '23:13', QuantMeed: '2');
+      Medicamento(NomeMed: 'Dipirona', HorarioMed: '23:13', QuantMeed: '2');
 
   @override
   Widget build(BuildContext context) {
@@ -165,9 +165,8 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
                                   title: Text('Medicamentos Cadastrados: '),
                                   children: existemed
                                       ? [
-                                          CardWidget(
-                                              'Horário: ${medicamento.HorarioMed} - Quantidade: ${medicamento.QuantMeed}',
-                                              '${medicamento.NomeMed}')
+                                          CardWidget('${medicamento.NomeMed}',
+                                              'Horário: ${medicamento.HorarioMed} - Quantidade: ${medicamento.QuantMeed}')
                                         ]
                                       : [])),
                           const SizedBox(
@@ -368,7 +367,8 @@ Widget buildObservacoes(UserPaciente usuarioPaciente) => Container(
               height: 16,
             ),
             Text(
-              usuarioPaciente.observacoesPaciente ?? '',
+              usuarioPaciente.observacoesPaciente ??
+                  'Observações sobre o tratamento (clique na foto para editar).',
               style: const TextStyle(fontSize: 16, height: 1.4),
             ),
           ],

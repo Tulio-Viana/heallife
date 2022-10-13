@@ -9,7 +9,6 @@ import 'package:idosos/modules/pages/bottomnavigator/notificacoesPaciente.dart';
 import 'package:idosos/modules/pages/bottomnavigator/notificacoesProfissional.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPACIENTE.dart';
 import 'package:idosos/modules/pages/profile/page/pg_perfilPROF.dart';
-import 'package:idosos/modules/pages/bottomnavigator/pg_ranking.dart';
 
 FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 FirebaseFirestore bd = FirebaseFirestore.instance;
@@ -22,7 +21,7 @@ class PaginaPrincipal extends StatefulWidget {
 }
 
 class _PaginaPrincipalState extends State<PaginaPrincipal> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -31,7 +30,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  bool Cuidador = true;
+  bool Cuidador = false;
   late List<Widget> _widgetOptions;
 
   lertipo() async {
@@ -51,11 +50,10 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
     lertipo();
     super.initState();
     _widgetOptions = <Widget>[
-      Cuidador ? const HomePageProf() : const homepagePaciente(),
-      const Ranking(),
       Cuidador
           ? const notificacoesProfissional()
           : const notificacoesPaciente(),
+      Cuidador ? const HomePageProf() : const homepagePaciente(),
       Cuidador ? const Perfil() : const PerfilPaciente()
     ];
   }
@@ -74,21 +72,15 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
-              ),
-              label: 'Início',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.leaderboard_rounded,
-              ),
-              label: 'Ranking',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
                 Icons.notifications_sharp,
               ),
               label: 'Notificações',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: 'Início',
             ),
             BottomNavigationBarItem(
               icon: Icon(

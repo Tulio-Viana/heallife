@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:idosos/modules/pages/profile/widget/cardPaciente.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -34,50 +35,16 @@ class _HomePageProfState extends State<HomePageProf> {
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
-              'Selecione os dias disponíveis para atendimento',
+              'Pacientes próximos buscando um cuidador:',
               style: TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Divider(
-              indent: 10,
-              endIndent: 10,
-              thickness: 2,
-              height: 3,
-              color: Colors.black,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            child: CardProfissionalWidget(
+                'Túlio', 'Dia: 07/10 de 8:00 as 18:00', ''),
           ),
-          TableCalendar(
-            focusedDay: DateTime.now(),
-            firstDay: DateTime.now(),
-            lastDay: DateTime.utc(2030, 3, 14),
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-              });
-            },
-            calendarFormat: _calendarFormat,
-            onFormatChanged: (format) {
-              setState(() {
-                _calendarFormat = format;
-              });
-            },
-            calendarStyle: const CalendarStyle(outsideDaysVisible: false),
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-            availableCalendarFormats: const {
-              CalendarFormat.month: "Semana",
-              CalendarFormat.week: "Mês",
-            },
-            locale: 'pt_BR',
-          )
         ],
       ),
     );
