@@ -55,7 +55,7 @@ class _EditProfilePagePacienteState extends State<EditProfilePagePaciente> {
               .toString()
               .split("namePaciente")[1]
               .split(":")[1]
-              .split(",")[0],
+              .split("}")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(

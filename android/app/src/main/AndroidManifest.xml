@@ -6,7 +6,7 @@
    <application
         android:label="HealLife"
         android:name="${applicationName}"
-        android:icon="@mipmap/Icone_launcher">
+        android:icon="@mipmap/icone_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"

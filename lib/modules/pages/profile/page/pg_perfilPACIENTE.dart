@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,7 +54,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
               .toString()
               .split("namePaciente")[1]
               .split(":")[1]
-              .split(",")[0],
+              .split("}")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
@@ -92,7 +90,7 @@ class _PerfilPacienteState extends State<PerfilPaciente> {
               .toString()
               .split("estadoPaciente")[1]
               .split(":")[1]
-              .split("}")[0],
+              .split(",")[0],
           onError: (error) => print("Listen failed: $error"),
         );
     docRef.snapshots().listen(
@@ -329,20 +327,26 @@ Widget buildCidade(UserPaciente usuarioPaciente) => Container(
               height: 18,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                AutoSizeText(
-                  'Celular: ${usuarioPaciente.numeroCllPaciente}',
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    'Celular: ${usuarioPaciente.numeroCllPaciente}',
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                AutoSizeText(
-                  'Cidade: ${usuarioPaciente.cidadePaciente} - ${usuarioPaciente.estadoPaciente?.trim()}',
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    'Cidade: ${usuarioPaciente.cidadePaciente} - ${usuarioPaciente.estadoPaciente?.trim()}',
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
